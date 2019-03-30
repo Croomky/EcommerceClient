@@ -4,13 +4,23 @@ import { Link } from 'react-router-native';
 
 import Palette from './ColorsPalette';
 
-export default Header = () => (
-  <View style={styles.header}>
-    <Link to='/'>
-      <Text style={styles.title}>TrueShop</Text>
-    </Link>
-  </View>
-);
+export default class Header extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <Link to="/">
+        <View style={styles.header}>
+            <View>
+              <Text style={styles.title}>TrueShop</Text>
+            </View>
+        </View>
+      </Link>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   header: {

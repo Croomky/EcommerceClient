@@ -11,14 +11,14 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header></Header>
         <NativeRouter>
+          <Header></Header>
           <Switch>
             <Route exact path='/' component={ FeaturedProducts } />
             <Route path='/productDetails' component={ ProductDetails } />
           </Switch>
+          <Menu></Menu>
         </NativeRouter>
-        <Menu></Menu>
       </View>
     );
   }
