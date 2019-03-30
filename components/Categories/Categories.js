@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
 
+import Category from './Category';
+
 export default class Categories extends React.Component {
   constructor(props) {
     super(props);
@@ -21,22 +23,21 @@ export default class Categories extends React.Component {
   prepareCategories() {
     const categoriesNames = this.fetchCategories();
 
-    categoriesNames.forEach(name => {
+    categoriesNames.forEach((name, index) => {
       this.categoriesList.push(
-        <View style={styles.categoryTile}>
-          <Text style={styles.categoryName}>
-            {name}
-          </Text>
-        </View>
+        <Category
+          key={index}
+          name={name}
+        />
       );
     });
   }
 
   render() {
     return (
-      <View>
-        <ScrollView>
-          
+      <View style={styles.mainContainer}>
+        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+          {this.categoriesList}
         </ScrollView>
       </View>
     );
@@ -44,10 +45,11 @@ export default class Categories extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  categoryTile: {
-    borderBottomColor: "black",
+  mainContainer: {
+    flex: 2,
   },
-  categoryName: {
-    fontSize: 19,
-  }
+  scrollViewContainer: {
+    paddingTop: 10,
+    paddingHorizontal: 20,
+  },
 })
