@@ -45,7 +45,7 @@ export default class Categories extends React.Component {
 
 const styles = StyleSheet.create({
   categoryTile: {
-    borderBottom: "black",
+    borderBottomColor: "black",
   },
   categoryName: {
     fontSize: 19,
