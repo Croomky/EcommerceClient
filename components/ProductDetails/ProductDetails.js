@@ -17,7 +17,6 @@ export default class ProductDetails extends React.Component {
   render() {
     return (
       <View>
-        {console.log(this.state.source)}
         <ScaledImage
           uri={this.state.source}
           width={300}

@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export default Menu = () => {
   return (
     <View style={styles.menu}>
-      <View style={styles.option} onTouchStart={() => {console.log('elo')}}>
+      <View style={styles.option}>
         <Icon name="account-plus" size={30} color={Palette.brightText} />
         <Text style={styles.optionName}>Sign up</Text>
       </View>
