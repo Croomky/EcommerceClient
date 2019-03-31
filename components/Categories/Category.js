@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import ColorsPalette from '../ColorsPalette';
 
 export default class Category extends React.Component {
   constructor(props) {
@@ -11,7 +12,10 @@ export default class Category extends React.Component {
       <View
         style={styles.categoryTile}
       >
-        <Text>logo</Text>
+        <Image
+          source={require('../../assets/tshirt-v.png')}
+          style={styles.logoImage}
+        />
         <Text style={styles.categoryName}>
           {this.props.name}
         </Text>
@@ -24,11 +28,20 @@ const styles = StyleSheet.create({
   categoryTile: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    width: '100%',
-    borderBottomColor: "black",
+    minWidth: '100%',
+    paddingTop: 20,
+  },
+  logoImage: {
+    width: 32,
+    height: 32,
   },
   categoryName: {
-    fontSize: 19,
+    flex: 2,
+    fontSize: 20,
+    color: ColorsPalette.darkText,
+    borderBottomColor: "grey",
+    borderBottomWidth: 1,
+    paddingBottom: 5,
+    marginLeft: 10,
   }
 });

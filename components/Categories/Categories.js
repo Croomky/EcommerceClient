@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
 
+import SearchBar from '../SearchBar';
 import Category from './Category';
 
 export default class Categories extends React.Component {
@@ -28,6 +29,7 @@ export default class Categories extends React.Component {
         <Category
           key={index}
           name={name}
+          logoUrl={""}
         />
       );
     });
@@ -36,6 +38,7 @@ export default class Categories extends React.Component {
   render() {
     return (
       <View style={styles.mainContainer}>
+      <SearchBar style={styles.searchBar} />
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
           {this.categoriesList}
         </ScrollView>
@@ -47,9 +50,15 @@ export default class Categories extends React.Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 2,
+    paddingTop: 5,
+    alignItems: 'center'
+  },
+  searchBar: {
+    flex: 1,
   },
   scrollViewContainer: {
+    width: '80%',
     paddingTop: 10,
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
 })
