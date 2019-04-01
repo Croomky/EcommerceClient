@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Menu from './components/Menu';
 import FeaturedProducts from './components/MainScreen/FeaturedProducts';
 import ProductDetails from './components/ProductDetails/ProductDetails';
+import Categories from './components/Categories/Categories';
 import Profile from './components/Profile/Profile';
 import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
@@ -19,6 +20,7 @@ export default class App extends React.Component {
           <Switch>
             <Route exact path='/' component={ FeaturedProducts } />
             <Route path='/productDetails' component={ ProductDetails } />
+            <Route path='/categories' component={ Categories } />
           </Switch>
           <Menu></Menu>
         </NativeRouter>
