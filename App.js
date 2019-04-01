@@ -6,6 +6,9 @@ import Header from './components/Header';
 import Menu from './components/Menu';
 import FeaturedProducts from './components/MainScreen/FeaturedProducts';
 import ProductDetails from './components/ProductDetails/ProductDetails';
+import Profile from './components/Profile/Profile';
+import SignUp from './components/SignUp/SignUp';
+import SignIn from './components/SignIn/SignIn';
 
 export default class App extends React.Component {
   render() {
