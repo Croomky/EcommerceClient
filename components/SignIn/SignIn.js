@@ -4,7 +4,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import ColorsPalette from '../ColorsPalette';
 import StylizedButton from '../StylizedButton';
 
-export default class SignUp extends React.Component {
+export default class SignIn extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -13,7 +13,7 @@ export default class SignUp extends React.Component {
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.title}>
-          Sign up
+          Sign in
         </Text>
         <TextInput
           style={styles.field}
@@ -23,12 +23,8 @@ export default class SignUp extends React.Component {
           style={styles.field}
           placeholder={"Password"}
         />
-        <TextInput
-          style={styles.field}
-          placeholder={"Confirm password"}
-        />
         <StylizedButton
-          title={"Sign up"}
+          title={"Sign in"}
           onPress={() => {}}
         />
       </View>

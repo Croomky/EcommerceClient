@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
+import { Link } from 'react-router-native';
 
 import Palette from './ColorsPalette';
 // import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -18,10 +19,12 @@ export default Menu = () => {
         <Icon name="account" size={30} color={Palette.brightText} />
         <Text style={styles.optionName}>Sign in</Text>
       </View>
-      <View style={styles.option}>
-        <Icon name="equal" size={30} color={Palette.brightText} />
-        <Text style={styles.optionName}>Categories</Text>
-      </View>
+      <Link to="/categories">
+        <View style={styles.option}>
+          <Icon name="equal" size={30} color={Palette.brightText} />
+          <Text style={styles.optionName}>Categories</Text>
+        </View>
+      </Link>
     </View>
   );
 };
