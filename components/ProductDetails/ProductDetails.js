@@ -4,6 +4,7 @@ import { StyleSheet, View, Image, Text, Button, ScrollView } from 'react-native'
 import { Link } from 'react-router-native';
 // import { Button } from 'react-native-elements';
 
+import StylizedButton from '../StylizedButton';
 import ScaledImage from '../ScaledImage';
 import ColorsPalette from '../ColorsPalette';
 
@@ -35,9 +36,10 @@ export default class ProductDetails extends React.Component {
               39,99 zł
               </Text>
             <Link to='#'>
-              <View style={styles.buyBtn}>
-                <Text style={styles.buyBtnText}>Buy</Text>
-              </View>
+              <StylizedButton
+                title={"Buy"}
+                onPress={() => {}}
+              />
             </Link>
           </View>
           <Text style={styles.description}>
