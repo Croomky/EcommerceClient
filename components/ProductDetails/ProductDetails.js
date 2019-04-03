@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   scrollViewContainer: {
     alignItems: 'center',
     paddingTop: 10,
+    paddingBottom: 10
   },
   productView: {
     width: '80%'
