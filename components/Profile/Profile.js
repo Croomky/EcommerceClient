@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
 
+import StylizedButton from '../StylizedButton';
+
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -68,6 +70,10 @@ export default class Profile extends React.Component {
           placeholder={"Address line 2"}
           value={this.state.address2}
         />
+        <StylizedButton style={styles.saveBtn}
+          title={"Save"}
+          onPress={() => {}}
+        />
       </ScrollView>
     );
   }
@@ -79,7 +85,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   contentContainerStyle: {
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: 20
   },
   title: {
     marginVertical: 20,
@@ -94,4 +101,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginBottom: 30,
   },
+  saveBtn: {
+    fontSize: 16
+  }
 })
