@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput } from 'react-native';
 
-import Palette from '../ColorsPalette';
+import Palette from './ColorsPalette';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default Header = () => (
