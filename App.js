@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Menu from './components/Menu';
 import FeaturedProducts from './components/MainScreen/FeaturedProducts';
 import ProductDetails from './components/ProductDetails/ProductDetails';
+import Profile from './components/Profile/Profile';
 
 export default class App extends React.Component {
   render() {
@@ -14,7 +15,7 @@ export default class App extends React.Component {
         <NativeRouter>
           <Header></Header>
           <Switch>
-            <Route exact path='/' component={ FeaturedProducts } />
+            <Route exact path='/' component={ Profile } />
             <Route path='/productDetails' component={ ProductDetails } />
           </Switch>
           <Menu></Menu>
