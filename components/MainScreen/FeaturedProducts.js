@@ -12,31 +12,57 @@ export default class FeaturedProducts extends React.Component {
   }
 
   fetchFeaturedProducts() {
-    //fetch featured products from rest api
-    //following products are hardcoded examples
-    this.setState({
-      productsList: [
-        <FeaturedProduct
-          key={1}
-          imageUrl={'https://images.pexels.com/photos/1549702/pexels-photo-1549702.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
-          productTitle={'example product'}
-        />,
-        <FeaturedProduct
-          key={2}
-          imageUrl={'https://images.pexels.com/photos/248412/pexels-photo-248412.jpeg?cs=srgb&dl=bottle-breakfast-clean-248412.jpg&fm=jpg'}
-          productTitle={'milk'}
-        />,
-        <FeaturedProduct
-          key={3}
-          imageUrl={'https://images.pexels.com/photos/256298/pexels-photo-256298.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
-          productTitle={'another example'}
-        />
-      ]
-    });
+    var self = this;
+
+    return new Promise(function(resolve, reject) {
+      fetch('http://192.168.0.103:8000/product/featuredProductList')
+      .then(function(res) {
+        return res.json();
+      }).then(function(data) {
+        resolve(data);
+      }).catch(function(err) {
+        console.log("Error in fetchFeaturedProducts: " + err);
+        reject(null);
+      });
+    })
   }
 
-  componentWillMount() {
-    this.fetchFeaturedProducts();
+  jsonToComponent(obj, index) {
+    return (
+      <FeaturedProduct
+        key={index}
+        productTitle={obj.name}
+        imageUrl={"http://192.168.0.103:8000/static/" + obj.thumbnail}
+      />
+    )
+  }
+
+  componentDidMount() {
+    var self = this;
+
+    this.fetchFeaturedProducts()
+      .then(function(featuredProductList) {
+        var componentList = [];
+
+        console.log(featuredProductList);
+
+        for (var i = 0; i < featuredProductList.length; i++) {
+          componentList.push(
+            self.jsonToComponent(featuredProductList[i], i)
+          );
+          console.log(componentList[i]);
+        }
+
+        self.setState({
+          productsList: componentList,
+        })
+
+        console.log("componentList: " + componentList);
+
+        self.setState({
+          productsList: componentList
+        });
+      });
   }
 
   render() {
