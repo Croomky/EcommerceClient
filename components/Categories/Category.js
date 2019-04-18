@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     color: ColorsPalette.darkText,
     borderBottomColor: "grey",
     borderBottomWidth: 1,
-    paddingBottom: 5,
+    paddingBottom: 10,
     marginLeft: 10,
   }
 });
