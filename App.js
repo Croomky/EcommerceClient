@@ -10,6 +10,7 @@ import Categories from './components/Categories/Categories';
 import Profile from './components/Profile/Profile';
 import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
+import Chart from './components/Chart/Chart';
 
 export default class App extends React.Component {
   render() {
@@ -18,7 +19,8 @@ export default class App extends React.Component {
         <NativeRouter>
           <Header></Header>
           <Switch>
-            <Route exact path='/' component={ Profile } />
+            {/* <Route exact path='/' component={ Profile } /> */}
+            <Route exact path='/' component={ Chart } />
             <Route path='/productDetails' component={ ProductDetails } />
             <Route path='/categories' component={ Categories } />
           </Switch>
