@@ -16,11 +16,11 @@ export default class FeaturedProduct extends React.Component {
   render() {
     return (
       <Link to="/productDetails">
-        <View>
+        <View style={styles.mainContainer}>
           {/* <ScaledImage uri={this.props.imageUrl} width={300} /> */}
           <Image
             source={{ uri: this.props.imageUrl }}
-            style={{height: 320, width: 320 }}
+            style={{height: 280, width: 280 }}
           />
           <View style={styles.namePriceRow}>
             <Text style={styles.productTitle}>
@@ -38,7 +38,8 @@ export default class FeaturedProduct extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer: {
-
+    width: '90%',
+    marginBottom: 20,
   },
   namePriceRow: {
     flex: 1,

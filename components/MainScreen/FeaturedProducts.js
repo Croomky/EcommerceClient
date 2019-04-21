@@ -48,20 +48,21 @@ export default class FeaturedProducts extends React.Component {
       .then(function(featuredProductList) {
         var componentList = [];
 
-        console.log(featuredProductList);
+        // console.log(featuredProductList);
 
         for (var i = 0; i < featuredProductList.length; i++) {
           componentList.push(
             self.jsonToComponent(featuredProductList[i], i)
           );
-          console.log(componentList[i]);
+          console.log(featuredProductList);
+          // console.log(componentList[i]);
         }
 
         // self.setState({
         //   productsList: componentList,
         // })
 
-        console.log("componentList: " + componentList);
+        // console.log("componentList: " + componentList);
 
         self.setState({
           productsList: componentList
@@ -71,9 +72,12 @@ export default class FeaturedProducts extends React.Component {
 
   render() {
     return (
-      <View style={styles.featuredProducts}>
+      <View style={styles.mainContainer}>
         <SearchBar style={styles.searchBar} />
-        <ScrollView style={styles.scrollView} contentContainerStyle={{alignItems: 'center'}}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.contentContainerStyle}
+        >
           {this.state.productsList}
         </ScrollView>
       </View>
@@ -82,19 +86,18 @@ export default class FeaturedProducts extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  featuredProducts: {
+  mainContainer: {
     flex: 2,
-    alignItems: 'center',
-    paddingTop: 5
-  },
-  product: {
-    width: 300,
-    overflow: 'hidden'
-  },
-  productImage: {
+    paddingTop: 5,
+    alignItems: 'center'
   },
   scrollView: {
     width: '100%',
+  },
+  contentContainerStyle: {
+    paddingTop: 15,
+    width: '100%',
+    alignItems: 'center'
   },
   searchBar: {
     flex: 1,
