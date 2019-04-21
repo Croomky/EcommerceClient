@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 
 import FeaturedProduct from './FeaturedProduct';
 import SearchBar from '../SearchBar';
+import NetworkConfig from '../NetworkConfig';
 
 export default class FeaturedProducts extends React.Component {
 
@@ -15,7 +16,7 @@ export default class FeaturedProducts extends React.Component {
     var self = this;
 
     return new Promise(function(resolve, reject) {
-      fetch('http://192.168.0.103:8000/product/featuredProductList')
+      fetch(NetworkConfig.RestApiAddress + '/product/featuredProductList')
       .then(function(res) {
         return res.json();
       }).then(function(data) {
@@ -24,7 +25,9 @@ export default class FeaturedProducts extends React.Component {
         console.log("Error in fetchFeaturedProducts: " + err);
         reject(null);
       });
-    })
+    }).catch(function(err) {
+      console.log(err);
+    });
   }
 
   jsonToComponent(obj, index) {
@@ -32,7 +35,8 @@ export default class FeaturedProducts extends React.Component {
       <FeaturedProduct
         key={index}
         productTitle={obj.name}
-        imageUrl={"http://192.168.0.103:8000/static/" + obj.thumbnail}
+        price={obj.price}
+        imageUrl={NetworkConfig.RestApiAddress + "/static/" + obj.thumbnail}
       />
     )
   }
@@ -53,9 +57,9 @@ export default class FeaturedProducts extends React.Component {
           console.log(componentList[i]);
         }
 
-        self.setState({
-          productsList: componentList,
-        })
+        // self.setState({
+        //   productsList: componentList,
+        // })
 
         console.log("componentList: " + componentList);
 
