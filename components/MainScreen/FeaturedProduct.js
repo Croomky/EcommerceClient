@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { Link } from 'react-router-native';
 
 import ScaledImage from '../ScaledImage';
+import Utils from '../Utils';
 
 export default class FeaturedProduct extends React.Component {
   constructor(props) {
@@ -21,9 +22,37 @@ export default class FeaturedProduct extends React.Component {
             source={{ uri: this.props.imageUrl }}
             style={{height: 320, width: 320 }}
           />
-          <Text>{this.props.productTitle}</Text>
+          <View style={styles.namePriceRow}>
+            <Text style={styles.productTitle}>
+              {this.props.productTitle}
+            </Text>
+            <Text style={styles.productPrice}>
+              {Utils.parsePrice(this.props.price)}
+            </Text>
+          </View>
         </View>
       </Link>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  mainContainer: {
+
+  },
+  namePriceRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 5,
+    paddingTop: 5,
+  },
+  productTitle: {
+    fontSize: 16,
+    fontWeight: '400',
+  },
+  productPrice: {
+    fontSize: 16,
+    fontWeight: '400',
+  }
+});
