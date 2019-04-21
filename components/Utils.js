@@ -3,7 +3,9 @@ export default class Utils {
     price = '$' + price;
 
     if(price.indexOf('.') == -1) {
-      return price + '.00';
+      price = price + '.00';
     }
+
+    return price;
   }
 }
