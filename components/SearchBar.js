@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { Redirect } from 'react-router-native';
 
 import Palette from './ColorsPalette';
+import History from './History';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import NetworkConfig from './NetworkConfig';
 
-export default class Header extends React.Component {
+export default class SearchBar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -25,6 +27,15 @@ export default class Header extends React.Component {
       });
   }
 
+  redirectToProductList() {
+    console.log('REDIRECT!');
+    
+    History.push({
+      pathname: '/productList',
+      search: '?phrase=a',
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -33,6 +44,7 @@ export default class Header extends React.Component {
           <TextInput
             placeholder="everything You want..."
             style={styles.textInput}
+            onSubmitEditing={this.redirectToProductList}
           />
         </View>
       </View>
