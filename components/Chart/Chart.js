@@ -11,7 +11,7 @@ export default class Chart extends React.Component {
 
   render() {
 
-    const fill = 'rgb(134, 65, 244)';
+    const fill = 'rgb(97, 28, 53)';
     const data = [900, 100, 600, 105, 100, 800, 120, 200, 110, 500, 115, 100];
     const labelArray = (
       <AlignedDataLabels
