@@ -10,16 +10,25 @@ export default class SignUp extends React.Component {
   }
 
   validatePassword() {
-    if(this.state.password == this.state.confirmPassowrd) {
-      return true;
+    
+    if(this.state.password == this.state.confirmPassword) {
+      this.setState({
+        is_validated: true
+      });
     } else {
-      return false;
+      this.setState({
+        is_validated: false
+      });
     }
   }
 
   postFormData(state) {
-    if(!this.validatePassword()) {
+    console.log('EXECUTED');
+    if(!state.is_validated) {
+      console.log('NOT VALIDATED');
       return;
+    } else {
+      console.log('VALIDATED!');
     }
 
     fetch('http://192.168.0.103:8000/user/register', {
@@ -72,7 +81,8 @@ export default class SignUp extends React.Component {
         />
         <StylizedButton
           title={"Sign up"}
-          onPress={this.postFormData.bind(this.state)}
+          onPress={() => this.postFormData.bind(
+            this.state)}
         />
       </View>
     );
