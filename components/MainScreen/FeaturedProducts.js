@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 
 import FeaturedProduct from './FeaturedProduct';
-import SearchBar from './SearchBar';
+// import SearchBar from './SearchBar';
 
 export default class FeaturedProducts extends React.Component {
 
