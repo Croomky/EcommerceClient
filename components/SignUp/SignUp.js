@@ -15,6 +15,18 @@ export default class SignUp extends React.Component {
     }
   }
 
+  renderAlertMsg() {
+    if(this.state.msg) {
+      return (
+        <Text>
+          {this.state.msg}
+        </Text>
+      )
+    } else {
+      return;
+    }
+  }
+
   validatePassword() {
     if(this.state.password == this.state.confirmPassword) {
       this.setState({
@@ -27,41 +39,6 @@ export default class SignUp extends React.Component {
     }
   }
 
-  postFormData(self) {
-    console.log('EXECUTED');
-    self.validatePassword()
-    var state = self.state;
-    if(!state.is_validated) {
-      console.log('NOT VALIDATED');
-      return;
-    } else {
-      console.log('VALIDATED!');
-    }
-
-    fetch('http://192.168.0.102:8000/user/register', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: state.email,
-        password: state.password
-      }),
-    }).then(function(res) {
-      return res.json();
-    }).then(function(json) {
-      if(json.answer == 'ok') {
-        console.log('SUCCESS');
-      } else if(json.answer == 'no') {
-        console.log('FAILURE');
-      } else {
-        console.log(json);
-      }
-    }).catch(function(err) {
-      console.log(err);
-    });
-  }
-
   validateEmail(email) {
     const email_regexp = /.*@.*[.].*/;
     return email_regexp.test(email)
@@ -69,7 +46,9 @@ export default class SignUp extends React.Component {
 
   signUpPressed(email, password, confirmPassword, validateEmailCallback) {
     if(!validateEmailCallback(email)) {
-
+      this.setState({
+        msg: 'error'
+      })
     }
     if(password == confirmPassword) {
       console.log('VALIDATEd!')
@@ -106,6 +85,7 @@ export default class SignUp extends React.Component {
         <Text style={styles.title}>
           Sign up
         </Text>
+        {this.renderAlertMsg()}
         <TextInput
           style={styles.field}
           value={this.state.email}
@@ -134,7 +114,8 @@ export default class SignUp extends React.Component {
           onPress={this.signUpPressed.bind(this,
             this.state.email,
             this.state.password,
-            this.state.confirmPassword
+            this.state.confirmPassword,
+            this.validateEmail
             )}
         />
       </View>
