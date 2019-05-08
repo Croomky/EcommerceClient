@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 import ColorsPalette from '../ColorsPalette';
 import StylizedButton from '../StylizedButton';
+import RedWarning from '../RedWarning';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -11,46 +12,85 @@ export default class SignUp extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
-      msg: ''
+      msgArray: []
     }
   }
 
   renderAlertMsg() {
-    if(this.state.msg) {
+    if(this.state.msgArray.length > 0) {
       return (
-        <Text>
-          {this.state.msg}
-        </Text>
+        <RedWarning
+          messages={this.state.msgArray}
+        />
       )
     } else {
       return;
     }
   }
 
-  validatePassword() {
-    if(this.state.password == this.state.confirmPassword) {
-      this.setState({
-        is_validated: true
-      });
-    } else {
-      this.setState({
-        is_validated: false
-      });
-    }
-  }
-
   validateEmail(email) {
+    if(email == "") {
+      let newMsgArray = this.state.msgArray;
+      newMsgArray.push('Email field cannot be empty.');
+      this.setState({
+        msgArray: newMsgArray
+      });
+      return false;
+    }
     const email_regexp = /.*@.*[.].*/;
-    return email_regexp.test(email)
+    if(!email_regexp.test(email)) {
+      let newMsgArray = this.state.msgArray;
+      newMsgArray.push('Email is not valid.');
+      this.setState({
+        msgArray: newMsgArray
+      });
+      return false;
+    } else {
+      return true;
+    }
   }
 
-  signUpPressed(email, password, confirmPassword, validateEmailCallback) {
-    if(!validateEmailCallback(email)) {
-      this.setState({
-        msg: 'error'
-      })
+  validateForm() {
+    var isValid = true;
+    if(!this.validateEmail(this.state.email)) {
+      isValid = false;
     }
-    if(password == confirmPassword) {
+    if(this.state.password == "") {
+      let newMsgArray = this.state.msgArray;
+      newMsgArray.push('Password field cannot be empty.');
+      this.setState({
+        msgArray: newMsgArray
+      });
+      isValid = false;
+    }
+    if(this.state.confirmPassword == "") {
+      let newMsgArray = this.state.msgArray;
+      newMsgArray.push('Confirm password field cannot be empty.');
+      this.setState({
+        msgArray: newMsgArray
+      });
+      isValid = false;
+    }
+    if(this.state.password !== this.state.confirmPassword) {
+      let newMsgArray = this.state.msgArray;
+      newMsgArray.push('Password doesn\'t match.');
+      this.setState({
+        msgArray: newMsgArray
+      });
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  signUpPressed(email, password, confirmPassword, validateEmailCallback, cleanMsgArrayCallback) {
+    this.setState({
+      msgArray: []
+    }, () => {
+      if(!this.validateForm()) {
+        return;
+      }
+
       console.log('VALIDATEd!')
       fetch('http://192.168.0.102:8000/user/register', {
         method: 'POST',
@@ -74,9 +114,7 @@ export default class SignUp extends React.Component {
       }).catch(function(err) {
         console.log(err);
       });
-    } else {
-      console.log('NOT VALIDATEd!')
-    }
+    });
   }
 
   render() {
@@ -115,7 +153,8 @@ export default class SignUp extends React.Component {
             this.state.email,
             this.state.password,
             this.state.confirmPassword,
-            this.validateEmail
+            this.validateEmail,
+            this.cleanMsgArray
             )}
         />
       </View>
