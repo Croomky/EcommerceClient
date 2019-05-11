@@ -8,25 +8,65 @@ import Palette from './ColorsPalette';
 // import { Icon } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default Menu = () => {
-  return (
-    <View style={styles.menu}>
-      <View style={styles.option}>
-        <Icon name="account-plus" size={30} color={Palette.brightText} />
-        <Text style={styles.optionName}>Sign up</Text>
-      </View>
-      <View style={styles.option}>
-        <Icon name="account" size={30} color={Palette.brightText} />
-        <Text style={styles.optionName}>Sign in</Text>
-      </View>
-      <Link to="/categories">
+export default class Menu extends React.Component {
+
+  renderUnauthorizedMenu() {
+    return (
+      <View style={styles.menu}>
         <View style={styles.option}>
-          <Icon name="equal" size={30} color={Palette.brightText} />
-          <Text style={styles.optionName}>Categories</Text>
+          <Icon name="account-plus" size={30} color={Palette.brightText} />
+          <Text style={styles.optionName}>Sign up</Text>
         </View>
-      </Link>
-    </View>
-  );
+        <View style={styles.option}>
+          <Icon name="account" size={30} color={Palette.brightText} />
+          <Text style={styles.optionName}>Sign in</Text>
+        </View>
+        <Link to="/categories">
+          <View style={styles.option}>
+            <Icon name="equal" size={30} color={Palette.brightText} />
+            <Text style={styles.optionName}>Categories</Text>
+          </View>
+        </Link>
+      </View>
+    );
+  }
+
+  renderAuthorizedMenu() {
+    return (
+      <View style={styles.menu}>
+        <View style={styles.option}>
+          <Icon name="account-circle" size={30} color={Palette.brightText} />
+          <Text style={styles.optionName}>Profile</Text>
+        </View>
+        <View style={styles.option}>
+          <Icon name="account" size={30} color={Palette.brightText} />
+          <Text style={styles.optionName}>Sign in</Text>
+        </View>
+        <Link to="/categories">
+          <View style={styles.option}>
+            <Icon name="equal" size={30} color={Palette.brightText} />
+            <Text style={styles.optionName}>Categories</Text>
+          </View>
+        </Link>
+      </View>
+    );
+  }
+
+
+  render() {
+    fetch('http://192.168.0.102:8000/user/authenticate')
+      .then(function(res) {
+        return res.json();
+      }).then(function(data) {
+        if(data.answer == "ok") {
+          return this.renderAuthorizedMenu();
+        } else {
+          return this.renderUnauthorizedMenu();
+        };
+      }).catch(function(err) {
+        console.log("Error in Menu, render function: " + err);
+      });
+  }
 };
 
 const styles = StyleSheet.create({
