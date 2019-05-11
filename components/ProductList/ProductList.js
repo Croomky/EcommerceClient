@@ -2,24 +2,16 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
 import ProductItem from './ProductItem';
+import History from '../History';
+import NetworkConfig from '../NetworkConfig';
 
 export default class ProductList extends React.Component {
   constructor(props) {
     super(props);
+    // console.log('props.phrase: ');
+    // console.log(props.phrase);
     this.state = {
       productList: [
-        {
-          name: 'Product 1',
-          price: '39,99 zl',
-          description: 'Short description of the product.'
-        },
-        {
-          name: 'Product 2',
-          price: '59,99 zl',
-          description: 'Short description of the second product.'
-        },
-      ],
-      preparedProductList: [
         <ProductItem
           key={1}
           name={'Product 1'}
@@ -54,22 +46,47 @@ export default class ProductList extends React.Component {
     }
   }
 
-  // fetchProducts() {
-  //   this.setState({
-  //     productList: [
-  //       {
-  //         name: 'Product 1',
-  //         price: '39,99 zl',
-  //         description: 'Short description of the product.'
-  //       },
-  //       {
-  //         name: 'Product 2',
-  //         price: '59,99 zl',
-  //         description: 'Short description of the second product.'
-  //       },
-  //     ]
-  //   });
-  // }
+
+  fetchProductsByPhrase(phrase) {
+    var self = this;
+
+    fetch(NetworkConfig.RestApiAddress + '/product/search?q=' + phrase)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(responseJson) {
+        self.setState({
+          productList: responseJson.map((element, index) => {
+            return (<ProductItem
+                key={element.id}
+                name={element.name}
+                price={element.price}
+              />);
+          })
+        });
+        console.log(self.state.productList);
+      });
+  }
+
+  parseSearch(searchAttr) {
+    return searchAttr.split('=')[1];
+  }
+
+  jsonArrayToComponentArray(jsonArray) {
+    return jsonArray.map((element, index) => {
+      <ProductItem
+          key={element.id}
+          name={element.name}
+          price={element.price}
+        />
+    });
+  }
+
+  componentDidMount() {
+    const searchAttr = History.location.search;
+    console.log('SEARCHATTR:', searchAttr);
+    searchAttr ? this.fetchProductsByPhrase(this.parseSearch(searchAttr)) : null;
+  }
 
   // createProductItemsFromState() {
   //   const productItems = this.state.productList.map((product, index) => (
@@ -97,7 +114,7 @@ export default class ProductList extends React.Component {
       <ScrollView style={styles.mainContainer}
         contentContainerStyle={styles.contentContainerStyle}
       >
-        {this.state.preparedProductList}
+        {this.state.productList}
       </ScrollView>
     );
   }
