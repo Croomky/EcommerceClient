@@ -8,10 +8,13 @@ import Palette from './ColorsPalette';
 // import { Icon } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { componentHolder } from './History';
+
 export default class Menu extends React.Component {
 
   constructor(props) {
     super(props);
+    componentHolder.push(this);
     this.state = {
       isAuthenticated: false
     }
@@ -65,17 +68,19 @@ export default class Menu extends React.Component {
       .then(function(res) {
         return res.json();
       }).then(function(data) {
-        if(data.answer == "ok") {
+        if(data.answer == 'authenticated') {
+          console.log('RECEIVED RESPONSE: ', data.answer);
           self.setState({
             isAuthenticated: true
           });
         } else {
+          console.log('RECEIVED RESPONSE: ', data.answer);
           self.setState({
             isAuthenticated: false
           });
         };
       }).catch(function(err) {
-        console.log("Error in Menu, render function: " + err);
+        console.log("Error in Menu, setAuthenticationState function: " + err);
       });
   }
 
@@ -83,6 +88,11 @@ export default class Menu extends React.Component {
     console.log("Menu component did mount");
     this.setAuthenticationState();
   }
+
+  // componentDidUpdate() {
+  //   console.log("Menu component did update");
+  //   this.setAuthenticationState();
+  // }
 
   render() {
     if(this.state.isAuthenticated === true) {
