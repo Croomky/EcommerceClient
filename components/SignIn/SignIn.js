@@ -17,7 +17,7 @@ export default class SignIn extends React.Component {
     console.log('USERNAME: ', username)
     console.log('PASSWORD: ', password)
 
-    fetch('http://192.168.0.103:8000/user/login', {
+    fetch('http://192.168.0.102:8000/user/login', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",

@@ -35,7 +35,7 @@ export default class App extends React.Component {
         <Router history={History}>
           <Header></Header>
           <Switch>
-            <Route exact path='/' component={ Categories } />
+            <Route exact path='/' component={ SignIn } />
             <Route path='/productList' component={ ProductList } />
             <Route path='/productDetails' component={ ProductDetails } />
             <Route path='/categories' component={ Categories } />

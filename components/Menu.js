@@ -80,6 +80,7 @@ export default class Menu extends React.Component {
   }
 
   componentDidMount() {
+    console.log("Menu component did mount");
     this.setAuthenticationState();
   }
 
