@@ -10,6 +10,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class Menu extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAuthenticated: false
+    }
+  }
+
   renderUnauthorizedMenu() {
     return (
       <View style={styles.menu}>
@@ -52,20 +59,36 @@ export default class Menu extends React.Component {
     );
   }
 
-
-  render() {
+  setAuthenticationState() {
+    var self = this;
     fetch('http://192.168.0.102:8000/user/authenticate')
       .then(function(res) {
         return res.json();
       }).then(function(data) {
         if(data.answer == "ok") {
-          return this.renderAuthorizedMenu();
+          self.setState({
+            isAuthenticated: true
+          });
         } else {
-          return this.renderUnauthorizedMenu();
+          self.setState({
+            isAuthenticated: false
+          });
         };
       }).catch(function(err) {
         console.log("Error in Menu, render function: " + err);
       });
+  }
+
+  componentDidMount() {
+    this.setAuthenticationState();
+  }
+
+  render() {
+    if(this.state.isAuthenticated === true) {
+      return this.renderAuthorizedMenu();
+    } else {
+      return this.renderUnauthorizedMenu();
+    }
   }
 };
 
