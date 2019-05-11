@@ -10,6 +10,7 @@ import Categories from './components/Categories/Categories';
 // import Profile from './components/Profile/Profile';
 import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
+import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 import ProductList from './components/ProductList/ProductList';
 
 export default class App extends React.Component {
