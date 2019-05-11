@@ -11,6 +11,7 @@ import Categories from './components/Categories/Categories';
 import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
+import ProductList from './components/ProductList/ProductList';
 
 export default class App extends React.Component {
   render() {
@@ -19,7 +20,7 @@ export default class App extends React.Component {
         <NativeRouter>
           <Header></Header>
           <Switch>
-            <Route exact path='/' component={ ShoppingCart } />
+            <Route exact path='/' component={ ProductList } />
             <Route path='/productDetails' component={ ProductDetails } />
             <Route path='/categories' component={ Categories } />
           </Switch>

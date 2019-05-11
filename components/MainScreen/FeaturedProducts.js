@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 
 import FeaturedProduct from './FeaturedProduct';
 import SearchBar from '../SearchBar';
+import NetworkConfig from '../NetworkConfig';
 
 export default class FeaturedProducts extends React.Component {
 
@@ -12,38 +13,71 @@ export default class FeaturedProducts extends React.Component {
   }
 
   fetchFeaturedProducts() {
-    //fetch featured products from rest api
-    //following products are hardcoded examples
-    this.setState({
-      productsList: [
-        <FeaturedProduct
-          key={1}
-          imageUrl={'https://images.pexels.com/photos/1549702/pexels-photo-1549702.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
-          productTitle={'example product'}
-        />,
-        <FeaturedProduct
-          key={2}
-          imageUrl={'https://images.pexels.com/photos/248412/pexels-photo-248412.jpeg?cs=srgb&dl=bottle-breakfast-clean-248412.jpg&fm=jpg'}
-          productTitle={'milk'}
-        />,
-        <FeaturedProduct
-          key={3}
-          imageUrl={'https://images.pexels.com/photos/256298/pexels-photo-256298.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}
-          productTitle={'another example'}
-        />
-      ]
+    var self = this;
+
+    return new Promise(function(resolve, reject) {
+      fetch(NetworkConfig.RestApiAddress + '/product/featuredProductList')
+      .then(function(res) {
+        return res.json();
+      }).then(function(data) {
+        resolve(data);
+      }).catch(function(err) {
+        console.log("Error in fetchFeaturedProducts: " + err);
+        reject(null);
+      });
+    }).catch(function(err) {
+      console.log(err);
     });
   }
 
-  componentWillMount() {
-    this.fetchFeaturedProducts();
+  jsonToComponent(obj, index) {
+    return (
+      <FeaturedProduct
+        key={index}
+        productTitle={obj.name}
+        price={obj.price}
+        imageUrl={NetworkConfig.RestApiAddress + "/static/" + obj.thumbnail}
+      />
+    )
+  }
+
+  componentDidMount() {
+    var self = this;
+
+    this.fetchFeaturedProducts()
+      .then(function(featuredProductList) {
+        var componentList = [];
+
+        // console.log(featuredProductList);
+
+        for (var i = 0; i < featuredProductList.length; i++) {
+          componentList.push(
+            self.jsonToComponent(featuredProductList[i], i)
+          );
+          console.log(featuredProductList);
+          // console.log(componentList[i]);
+        }
+
+        // self.setState({
+        //   productsList: componentList,
+        // })
+
+        // console.log("componentList: " + componentList);
+
+        self.setState({
+          productsList: componentList
+        });
+      });
   }
 
   render() {
     return (
-      <View style={styles.featuredProducts}>
+      <View style={styles.mainContainer}>
         <SearchBar style={styles.searchBar} />
-        <ScrollView style={styles.scrollView} contentContainerStyle={{alignItems: 'center'}}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.contentContainerStyle}
+        >
           {this.state.productsList}
         </ScrollView>
       </View>
@@ -52,19 +86,18 @@ export default class FeaturedProducts extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  featuredProducts: {
+  mainContainer: {
     flex: 2,
-    alignItems: 'center',
-    paddingTop: 5
-  },
-  product: {
-    width: 300,
-    overflow: 'hidden'
-  },
-  productImage: {
+    paddingTop: 5,
+    alignItems: 'center'
   },
   scrollView: {
     width: '100%',
+  },
+  contentContainerStyle: {
+    paddingTop: 15,
+    width: '100%',
+    alignItems: 'center'
   },
   searchBar: {
     flex: 1,

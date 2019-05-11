@@ -4,6 +4,7 @@ import { StyleSheet, View, Image, Text, Button, ScrollView } from 'react-native'
 import { Link } from 'react-router-native';
 // import { Button } from 'react-native-elements';
 
+import StylizedButton from '../StylizedButton';
 import ScaledImage from '../ScaledImage';
 import ColorsPalette from '../ColorsPalette';
 
@@ -17,12 +18,14 @@ export default class ProductDetails extends React.Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContainer}>
-          {/* <ScaledImage
+      <ScrollView style={styles.mainContainer}
+        contentContainerStyle={styles.scrollViewContainer}
+      >
+        {/* <ScaledImage
             uri={this.state.source}
             width={300}
           ></ScaledImage> */}
+        <View style={styles.productView}>
           <Image
             source={{ uri: this.state.source }}
             style={{ width: '100%', height: 200 }}
@@ -31,18 +34,19 @@ export default class ProductDetails extends React.Component {
           <View style={styles.priceBuyRow}>
             <Text style={styles.price}>
               39,99 zł
-            </Text>
+              </Text>
             <Link to='#'>
-              <View style={styles.buyBtn}>
-                <Text style={styles.buyBtnText}>Buy</Text>
-              </View>
+              <StylizedButton
+                title={"Buy"}
+                onPress={() => {}}
+              />
             </Link>
           </View>
           <Text style={styles.description}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae accusantium non aliquam mollitia ea exercitationem, dicta voluptas magnam corporis nisi reprehenderit ab tempora voluptatibus assumenda, vitae nulla doloremque, eveniet quos ut tempore numquam eius modi. Amet ducimus expedita non eos, modi blanditiis dignissimos possimus reprehenderit tempore neque dolor pariatur ipsum error. Nihil, blanditiis sequi aliquid iure natus aliquam ullam minus adipisci corrupti impedit perferendis excepturi fuga dolorem officia fugit. Consectetur ea fugiat voluptas exercitationem voluptates blanditiis sit, obcaecati rerum nam dignissimos eveniet est quo suscipit asperiores consequuntur molestiae enim numquam neque culpa accusamus ipsum in distinctio maxime explicabo? Perferendis, consequuntur!
           </Text>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -50,17 +54,20 @@ export default class ProductDetails extends React.Component {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 2,
-  },
-  scrollView: {
     width: '100%',
   },
   scrollViewContainer: {
-    alignItems: 'flex-start',
-    paddingTop: 5,
-    paddingHorizontal: 35,
+    alignItems: 'center',
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  productView: {
+    width: '80%'
   },
   productTitle: {
-    fontSize: 19,
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: '400',
   },
   priceBuyRow: {
     flex: 1,
@@ -70,7 +77,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   price: {
-    fontSize: 15
+    fontSize: 18,
+    fontWeight: '400'
   },
   buyBtn: {
     backgroundColor: ColorsPalette.main,
@@ -78,10 +86,11 @@ const styles = StyleSheet.create({
     padding: 10
   },
   buyBtnText: {
-    fontSize: 15,
+    fontSize: 14,
     color: ColorsPalette.brightText,
   },
   description: {
-
+    marginTop: 20,
+    fontSize: 13
   }
 })
