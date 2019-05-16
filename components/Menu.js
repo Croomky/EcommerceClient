@@ -9,6 +9,7 @@ import Palette from './ColorsPalette';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { componentHolder } from './History';
+import NetworkConfig from './NetworkConfig';
 
 export default class Menu extends React.Component {
 
@@ -64,7 +65,7 @@ export default class Menu extends React.Component {
 
   setAuthenticationState() {
     var self = this;
-    fetch('http://192.168.0.102:8000/user/authenticate')
+    fetch(NetworkConfig.RestApiAddress + '/user/authenticate')
       .then(function(res) {
         return res.json();
       }).then(function(data) {
