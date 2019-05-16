@@ -58,14 +58,17 @@ export default class Menu extends React.Component {
       .then(function(res) {
         return res.json();
       }).then(function(data) {
+        console.log('IS AUTHENTICATED: ', data.answer);
         if(data.answer == "ok") {
-          return this.renderAuthorizedMenu();
+          // return this.renderAuthorizedMenu();
         } else {
-          return this.renderUnauthorizedMenu();
+          // return this.renderUnauthorizedMenu();
         };
       }).catch(function(err) {
         console.log("Error in Menu, render function: " + err);
       });
+
+    return this.renderUnauthorizedMenu();
   }
 };
 

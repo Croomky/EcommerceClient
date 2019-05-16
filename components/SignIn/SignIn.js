@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 import ColorsPalette from '../ColorsPalette';
 import StylizedButton from '../StylizedButton';
+import NetworkConfig from '../NetworkConfig';
 
 export default class SignIn extends React.Component {
   constructor(props) {
@@ -17,17 +18,20 @@ export default class SignIn extends React.Component {
     console.log('USERNAME: ', username)
     console.log('PASSWORD: ', password)
 
-    fetch('http://192.168.0.103:8000/user/login', {
+    fetch(NetworkConfig.RestApiAddress + '/user/login', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: 'same-origin',
       body: JSON.stringify({
         username: username,
         password: password
       })
-    }).then(res => res.json())
-      .then(function(json) {
+    }).then(res => {
+        console.log('RESPONSE FROM SIGNIN FETCH:', res);
+        return res.json();
+    }).then(function(json) {
         if(json.answer == 'ok') {
           console.log('SUCCESS');
         } else if(json.answer == 'no') {
