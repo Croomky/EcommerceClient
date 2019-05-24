@@ -5,7 +5,10 @@ import ColorsPalette from '../ColorsPalette';
 import StylizedButton from '../StylizedButton';
 import NetworkConfig from '../NetworkConfig';
 import SessionIdHandler from '../SessionIdHandler';
-import sessionIdHandler from '../SessionIdHandler';
+import History from '../History';
+// import { menuComponentInstance } from '../History';
+import Menu from '../Menu';
+// import menuRefresher from '../MenuRefresher';
 
 export default class SignIn extends React.Component {
   constructor(props) {
@@ -33,11 +36,12 @@ export default class SignIn extends React.Component {
       // console.log('Response object:');
       // console.log(res);
       SessionIdHandler.setSessionIdFromResponse(res);
-      console.log(sessionIdHandler.sessionId);
+      console.log(SessionIdHandler.sessionId);
       return res.json();
     }).then(function(json) {
         if(json.answer == 'ok') {
           console.log('SUCCESS');
+          History.push('/categories');
         } else if(json.answer == 'no') {
           console.log('FAILURE');
         }

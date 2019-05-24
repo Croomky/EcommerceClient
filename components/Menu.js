@@ -8,15 +8,17 @@ import Palette from './ColorsPalette';
 // import { Icon } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { componentHolder } from './History';
 import NetworkConfig from './NetworkConfig';
 import SessionIdHandler from './SessionIdHandler';
+import { setMenuComponent } from './MenuRefresher';
 
 export default class Menu extends React.Component {
 
   constructor(props) {
     super(props);
-    componentHolder.push(this);
+
+    setMenuComponent(this);
+
     this.state = {
       isAuthenticated: false
     }
@@ -65,33 +67,34 @@ export default class Menu extends React.Component {
   }
 
   setAuthenticationState() {
-    // var self = this;
-    // fetch(NetworkConfig.RestApiAddress + '/user/authenticate', {
-    //   credentials: 'same-origin'
-    // })
-    //   .then(function(res) {
-    //     return res.json();
-    //   }).then(function(data) {
-    //     if(data.answer == 'authenticated') {
-    //       console.log('RECEIVED RESPONSE: ', data.answer);
-    //       self.setState({
-    //         isAuthenticated: true
-    //       });
-    //     } else {
-    //       console.log('RECEIVED RESPONSE: ', data.answer);
-    //       self.setState({
-    //         isAuthenticated: false
-    //       });
-    //     };
-    //   }).catch(function(err) {
-    //     console.log("Error in Menu, setAuthenticationState function: " + err);
-    //   });
+    var self = this;
+    fetch(NetworkConfig.RestApiAddress + '/user/authenticate', {
+      headers: {
+        'Cookie': 'sessionid=' + SessionIdHandler.sessionId
+      }
+    }).then(function(res) {
+        return res.json();
+    }).then(function(data) {
+      if(data.answer == 'authenticated') {
+        console.log('RECEIVED RESPONSE: ', data.answer);
+        self.setState({
+          isAuthenticated: true
+        });
+      } else {
+        console.log('RECEIVED RESPONSE: ', data.answer);
+        self.setState({
+          isAuthenticated: false
+        });
+      };
+    }).catch(function(err) {
+      console.log("Error in Menu, setAuthenticationState function: " + err);
+    });
 
-    if(SessionIdHandler.sessionId != '') {
-      this.setState({
-        isAuthenticated: true
-      })
-    }
+    // if(SessionIdHandler.sessionId != '') {
+    //   this.setState({
+    //     isAuthenticated: true
+    //   })
+    // }
   }
 
   componentDidMount() {
@@ -104,7 +107,12 @@ export default class Menu extends React.Component {
   //   this.setAuthenticationState();
   // }
 
+  refresh() {
+    console.log('Menu refreshed');
+  }
+
   render() {
+    
     if(this.state.isAuthenticated === true) {
       return this.renderAuthorizedMenu();
     } else {

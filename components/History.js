@@ -1,14 +1,12 @@
 import { createMemoryHistory } from 'history';
-
-export var componentHolder = [];
+import { menuComponentInstance, refreshMenu } from './MenuRefresher';
 
 const history = createMemoryHistory();
 const unlisten = history.listen((location, action) => {
   console.log(action, location.pathname, location.state);
-  componentHolder.forEach(component => {
-    component.setAuthenticationState();
-  });
+  
+  // console.log(menuComponentInstance);
+  refreshMenu();
 });
-
 
 export default history;
