@@ -4,6 +4,9 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import ColorsPalette from '../ColorsPalette';
 import StylizedButton from '../StylizedButton';
 import NetworkConfig from '../NetworkConfig';
+import History from '../History';
+import { getValidSigningRedirect } from '../History';
+import SessionIdHandler from '../SessionIdHandler';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -46,6 +49,7 @@ export default class SignUp extends React.Component {
   }
 
   signUpPressed(email, password, confirmPassword, validateEmailCallback) {
+    var self = this;
     if(!validateEmailCallback(email)) {
       this.setState({
         msg: 'error'
@@ -67,6 +71,8 @@ export default class SignUp extends React.Component {
       }).then(function(json) {
         if(json.answer == 'ok') {
           console.log('SUCCESS');
+          // History.go(getValidSigningRedirect());
+          self.postCredentials(email, password);
         } else if(json.answer == 'no') {
           console.log('FAILURE');
         } else {
@@ -78,6 +84,34 @@ export default class SignUp extends React.Component {
     } else {
       console.log('NOT VALIDATEd!')
     }
+  }
+
+  postCredentials(username, password) {
+    console.log('USERNAME: ', username)
+    console.log('PASSWORD: ', password)
+
+    fetch(NetworkConfig.RestApiAddress + '/user/login', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    }).then(function(res) {
+      SessionIdHandler.setSessionIdFromResponse(res);
+      return res.json();
+    }).then(function(json) {
+      if(json.answer == 'ok') {
+        console.log('SUCCESS');
+        History.go(getValidSigningRedirect());
+      } else if(json.answer == 'no') {
+        console.log('FAILURE');
+      }
+    }).catch(function(err) {
+      console.log(err);
+    })
   }
 
   render() {
