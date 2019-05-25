@@ -46,6 +46,7 @@ export default class ProductList extends React.Component {
     }
   }
 
+
   fetchProductsByPhrase(phrase) {
     var self = this;
 
