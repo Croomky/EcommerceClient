@@ -9,7 +9,7 @@ import History from './components/History';
 import FeaturedProducts from './components/MainScreen/FeaturedProducts';
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import Categories from './components/Categories/Categories';
-// import Profile from './components/Profile/Profile';
+import Profile from './components/Profile/Profile';
 import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
@@ -39,6 +39,9 @@ export default class App extends React.Component {
             <Route path='/productList' component={ ProductList } />
             <Route path='/productDetails' component={ ProductDetails } />
             <Route path='/categories' component={ Categories } />
+            <Route path='/signIn' component={ SignIn } />
+            <Route path='/signUp' component={ SignUp } />
+            <Route path='/profile' component={ Profile } />
           </Switch>
           <Menu></Menu>
         </Router>
