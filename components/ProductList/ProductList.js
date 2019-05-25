@@ -53,8 +53,7 @@ export default class ProductList extends React.Component {
     fetch(NetworkConfig.RestApiAddress + '/product/search?q=' + phrase)
       .then(function(response) {
         return response.json();
-      })
-      .then(function(responseJson) {
+      }).then(function(responseJson) {
         self.setState({
           productList: responseJson.map((element, index) => {
             return (<ProductItem
@@ -65,6 +64,9 @@ export default class ProductList extends React.Component {
           })
         });
         console.log(self.state.productList);
+      }).catch(function(err) {
+        console.log('Couldn\'t fetch products by a phrase');
+        console.log(err);
       });
   }
 
