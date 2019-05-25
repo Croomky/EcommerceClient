@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, BackHandler } from 'react-native';
 import { NativeRouter, Router, Route, Link, Switch } from 'react-router-native';
 import { createMemoryHistory } from 'history';
 
@@ -27,6 +27,19 @@ export default class App extends React.Component {
     // });
 
     // this.history = History;
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  handleBackPress() {
+    History.goBack();
+    return true;
   }
 
   render() {
