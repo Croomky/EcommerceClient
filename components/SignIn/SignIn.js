@@ -42,7 +42,7 @@ export default class SignIn extends React.Component {
     }).then(function(json) {
         if(json.answer == 'ok') {
           console.log('SUCCESS');
-          History.push('/categories');
+          History.goBack();
         } else if(json.answer == 'no') {
           console.log('FAILURE');
         }
