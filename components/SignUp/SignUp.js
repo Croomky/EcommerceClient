@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 import ColorsPalette from '../ColorsPalette';
 import StylizedButton from '../StylizedButton';
+import NetworkConfig from '../NetworkConfig';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -52,7 +53,7 @@ export default class SignUp extends React.Component {
     }
     if(password == confirmPassword) {
       console.log('VALIDATEd!')
-      fetch('http://192.168.0.102:8000/user/register', {
+      fetch(NetworkConfig.RestApiAddress + '/user/register', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
