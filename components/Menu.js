@@ -60,18 +60,6 @@ export default class Menu extends React.Component {
 
 
   render() {
-    // fetch('http://192.168.0.102:8000/user/authenticate')
-    //   .then(function(res) {
-    //     return res.json();
-    //   }).then(function(data) {
-    //     if(data.answer == "ok") {
-    //       return this.renderAuthorizedMenu();
-    //     } else {
-    //       return this.renderUnauthorizedMenu();
-    //     };
-    //   }).catch(function(err) {
-    //     console.log("Error in Menu, render function: " + err);
-    //   });
     return this.renderUnauthorizedMenu();
   }
 };
