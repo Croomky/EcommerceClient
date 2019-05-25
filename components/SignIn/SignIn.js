@@ -28,6 +28,7 @@ export default class SignIn extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: 'same-origin',
       body: JSON.stringify({
         username: username,
         password: password
@@ -36,7 +37,7 @@ export default class SignIn extends React.Component {
       // console.log('Response object:');
       // console.log(res);
       SessionIdHandler.setSessionIdFromResponse(res);
-      console.log(SessionIdHandler.sessionId);
+      //console.log(SessionIdHandler.sessionId);
       return res.json();
     }).then(function(json) {
         if(json.answer == 'ok') {
