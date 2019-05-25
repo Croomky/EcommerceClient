@@ -8,6 +8,10 @@ class SessionIdHandler {
   }
 
   parseSetCookie(cookie) {
+    if(cookie == undefined) {
+      console.log('Cookie is undefined');
+      return '';
+    }
     const sessionIdIndex = cookie.indexOf('sessionid=')+('sessionid='.length);
     var endIndex = 0;
     for (var i = sessionIdIndex; i < cookie.length; i++) {

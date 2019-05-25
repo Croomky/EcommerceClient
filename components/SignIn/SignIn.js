@@ -28,7 +28,7 @@ export default class SignIn extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: 'same-origin',
+      // credentials: 'same-origin',
       body: JSON.stringify({
         username: username,
         password: password
