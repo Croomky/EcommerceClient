@@ -6,6 +6,7 @@ import StylizedButton from '../StylizedButton';
 import NetworkConfig from '../NetworkConfig';
 import SessionIdHandler from '../SessionIdHandler';
 import History from '../History';
+import { getValidSigningRedirect } from '../History';
 // import { menuComponentInstance } from '../History';
 import Menu from '../Menu';
 // import menuRefresher from '../MenuRefresher';
@@ -42,7 +43,7 @@ export default class SignIn extends React.Component {
     }).then(function(json) {
         if(json.answer == 'ok') {
           console.log('SUCCESS');
-          History.goBack();
+          History.go(getValidSigningRedirect());
         } else if(json.answer == 'no') {
           console.log('FAILURE');
         }
