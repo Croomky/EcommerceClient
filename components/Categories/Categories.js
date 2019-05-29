@@ -3,36 +3,50 @@ import { View, ScrollView, Text, StyleSheet } from 'react-native';
 
 import SearchBar from '../SearchBar';
 import Category from './Category';
+import NetworkConfig from '../NetworkConfig';
 
 export default class Categories extends React.Component {
   constructor(props) {
     super(props);
-    this.categoriesList = [];
-    this.prepareCategories();
+    this.state = {
+      categoryList: []
+    }
   }
 
   fetchCategories() {
-    return [
-      "Clothes",
-      "Electronics",
-      "Toys",
-      "Sports",
-      "Literature",
-    ];
+    var self = this;
+
+    fetch(NetworkConfig.RestApiAddress + '/product/categoryList')
+    .then(function(response) {
+      return response.json();
+    }).then(function(data) {
+      // console.log(data);
+      self.setState({
+        categoryList: self.jsonToCategoryList(data)
+      });
+    }).catch(function(err) {
+      console.error(err);
+    });
   }
 
-  prepareCategories() {
-    const categoriesNames = this.fetchCategories();
+  jsonToCategoryList(data) {
+    var categoryComponentArray = [];
 
-    categoriesNames.forEach((name, index) => {
-      this.categoriesList.push(
+    data.forEach((categoryObject, index) => {
+      categoryComponentArray.push(
         <Category
           key={index}
-          name={name}
-          logoUrl={""}
+          name={categoryObject.name}
+          logoUrl={NetworkConfig.RestApiAddress + '/static/' + categoryObject.name + '.png'}
         />
       );
     });
+
+    return categoryComponentArray;
+  }
+
+  componentDidMount() {
+    this.fetchCategories();
   }
 
   render() {
@@ -40,7 +54,7 @@ export default class Categories extends React.Component {
       <View style={styles.mainContainer}>
       <SearchBar style={styles.searchBar} />
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-          {this.categoriesList}
+          {this.state.categoryList}
         </ScrollView>
       </View>
     );

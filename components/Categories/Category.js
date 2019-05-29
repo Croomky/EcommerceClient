@@ -13,7 +13,7 @@ export default class Category extends React.Component {
         style={styles.categoryTile}
       >
         <Image
-          source={require('../../assets/tshirt-v.png')}
+          source={{uri: this.props.logoUrl}}
           style={styles.logoImage}
         />
         <Text style={styles.categoryName}>
