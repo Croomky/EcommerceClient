@@ -8,8 +8,6 @@ import NetworkConfig from '../NetworkConfig';
 export default class ProductList extends React.Component {
   constructor(props) {
     super(props);
-    // console.log('props.phrase: ');
-    // console.log(props.phrase);
     this.state = {
       productList: [
         <ProductItem
@@ -46,7 +44,6 @@ export default class ProductList extends React.Component {
     }
   }
 
-
   fetchProductsByPhrase(phrase) {
     var self = this;
 
@@ -55,17 +52,25 @@ export default class ProductList extends React.Component {
         return response.json();
       }).then(function(responseJson) {
         self.setState({
-          productList: responseJson.map((element, index) => {
-            return (<ProductItem
-                key={element.id}
-                name={element.name}
-                price={element.price}
-              />);
-          })
+          productList: self.jsonArrayToComponentArray(responseJson)
         });
-        console.log(self.state.productList);
       }).catch(function(err) {
         console.log('Couldn\'t fetch products by a phrase');
+        console.log(err);
+      });
+  }
+
+  fetchProductsByCategory(categoryId) {
+    var self = this;
+
+    fetch(NetworkConfig.RestApiAddress + '/product/byCategory/' + categoryId)
+      .then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        self.setState({
+          productList: self.jsonArrayToComponentArray(data)
+        });
+      }).catch(function(err) {
         console.log(err);
       });
   }
@@ -74,42 +79,33 @@ export default class ProductList extends React.Component {
     return searchAttr.split('=')[1];
   }
 
+  getFirstParam(searchAttr) {
+    return searchAttr.substring(searchAttr.indexOf('?')+1, searchAttr.indexOf('='));
+  }
+
   jsonArrayToComponentArray(jsonArray) {
-    return jsonArray.map((element, index) => {
-      <ProductItem
+    const productItemArray = jsonArray.map((element, index) => {
+      return (<ProductItem
           key={element.id}
           name={element.name}
           price={element.price}
-        />
+        />);
     });
+
+    return productItemArray;
   }
 
   componentDidMount() {
     const searchAttr = History.location.search;
-    console.log('SEARCHATTR:', searchAttr);
-    searchAttr ? this.fetchProductsByPhrase(this.parseSearch(searchAttr)) : null;
+    // console.log('SEARCHATTR:', searchAttr);
+    const firstParam = this.getFirstParam(searchAttr);
+
+    if(firstParam == 'categoryId') {
+      this.fetchProductsByCategory(this.parseSearch(searchAttr));
+    } else if(firstParam  == 'phrase') {
+      this.fetchProductsByPhrase(this.parseSearch(searchAttr));
+    }
   }
-
-  // createProductItemsFromState() {
-  //   const productItems = this.state.productList.map((product, index) => (
-  //     <ProductItem
-  //       key={index}
-  //       name={product.name}
-  //       price={product.price}
-  //     />
-  //   ));
-    
-  //   console.log(productItems);
-  //   this.setState({
-  //     preparedProductList: productItems
-  //   });
-
-  //   return productItems;
-  // }
-
-  // componentDidMount() {
-  //   this.createProductItemsFromState();
-  // }
 
   render() {
     return (

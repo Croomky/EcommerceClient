@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import { Link } from 'react-router-native';
 
 import SearchBar from '../SearchBar';
 import Category from './Category';
@@ -36,6 +37,7 @@ export default class Categories extends React.Component {
       categoryComponentArray.push(
         <Category
           key={index}
+          id={categoryObject.id}
           name={categoryObject.name}
           logoUrl={NetworkConfig.RestApiAddress + '/static/' + categoryObject.name + '.png'}
         />
