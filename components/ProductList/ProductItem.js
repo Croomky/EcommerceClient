@@ -13,7 +13,7 @@ export default class ProductItem extends React.Component {
         <Link to="/productDetails">
           <Image
             style={styles.thumbnail}
-            source={{ uri: 'https://via.placeholder.com/32' }}
+            source={{ uri: this.props.thumbnail }}
           />
         </Link>
         <View style={styles.productContent}>

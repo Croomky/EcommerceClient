@@ -83,15 +83,22 @@ export default class ProductList extends React.Component {
     return searchAttr.substring(searchAttr.indexOf('?')+1, searchAttr.indexOf('='));
   }
 
+  getThumbnailAddress(thumbnailName) {
+    return NetworkConfig.RestApiAddress + '/static/' + thumbnailName
+  }
+
   jsonArrayToComponentArray(jsonArray) {
+    var self = this;
     const productItemArray = jsonArray.map((element, index) => {
       return (<ProductItem
           key={element.id}
           name={element.name}
           price={element.price}
+          thumbnail={self.getThumbnailAddress(element.thumbnail)}
         />);
     });
 
+    console.log(jsonArray);
     return productItemArray;
   }
 
