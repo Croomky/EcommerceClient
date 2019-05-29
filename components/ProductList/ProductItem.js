@@ -10,7 +10,12 @@ export default class ProductItem extends React.Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <Link to="/productDetails">
+        <Link
+          to={{
+            pathname: '/productDetails',
+            search: '?productId=' + this.props.id
+          }}
+        >
           <Image
             style={styles.thumbnail}
             source={{ uri: this.props.thumbnail }}

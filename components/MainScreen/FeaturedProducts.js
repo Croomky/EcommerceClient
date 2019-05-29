@@ -34,6 +34,7 @@ export default class FeaturedProducts extends React.Component {
     return (
       <FeaturedProduct
         key={index}
+        id={obj.id}
         productTitle={obj.name}
         price={obj.price}
         imageUrl={NetworkConfig.RestApiAddress + "/static/" + obj.thumbnail}
@@ -54,7 +55,7 @@ export default class FeaturedProducts extends React.Component {
           componentList.push(
             self.jsonToComponent(featuredProductList[i], i)
           );
-          console.log(featuredProductList);
+          // console.log(featuredProductList);
           // console.log(componentList[i]);
         }
 

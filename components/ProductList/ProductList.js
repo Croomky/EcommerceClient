@@ -91,14 +91,15 @@ export default class ProductList extends React.Component {
     var self = this;
     const productItemArray = jsonArray.map((element, index) => {
       return (<ProductItem
-          key={element.id}
+          key={index}
+          id={element.id}
           name={element.name}
           price={element.price}
           thumbnail={self.getThumbnailAddress(element.thumbnail)}
         />);
     });
 
-    console.log(jsonArray);
+    // console.log(jsonArray);
     return productItemArray;
   }
 

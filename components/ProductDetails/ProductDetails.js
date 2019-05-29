@@ -7,16 +7,56 @@ import { Link } from 'react-router-native';
 import StylizedButton from '../StylizedButton';
 import ScaledImage from '../ScaledImage';
 import ColorsPalette from '../ColorsPalette';
+import NetworkConfig from '../NetworkConfig';
+import History from '../History'
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      source: "https://images.pexels.com/photos/1549702/pexels-photo-1549702.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-    }
+      product: {
+        id: '',
+        name: '',
+        price: '',
+        thumbnail: ''
+      }
+    };
+  }
+
+  fetchProductById(productId) {
+    var self = this;
+
+    fetch(NetworkConfig.RestApiAddress + '/product/details/' + productId)
+      .then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        console.log('object', data);
+        self.setState({
+          product: data
+        });
+      }).catch(function(err) {
+        console.log(err);
+      });
+  }
+
+  getProductIdFromParams() {
+    const productId = History.location.search.split('=')[1];
+    console.log(History.location);
+    return productId;
+  }
+
+  getThumbnailAddress(thumbnailName) {
+    return NetworkConfig.RestApiAddress + '/static/' + thumbnailName;
+  }
+
+  componentDidMount() {
+    const id = this.getProductIdFromParams();
+    console.log('id', id);
+    this.fetchProductById(id);
   }
 
   render() {
+    console.log(this.state);
     return (
       <ScrollView style={styles.mainContainer}
         contentContainerStyle={styles.scrollViewContainer}
@@ -27,14 +67,16 @@ export default class ProductDetails extends React.Component {
           ></ScaledImage> */}
         <View style={styles.productView}>
           <Image
-            source={{ uri: this.state.source }}
+            source={{ uri: this.getThumbnailAddress(this.state.product.thumbnail) }}
             style={{ width: '100%', height: 200 }}
           />
-          <Text style={styles.productTitle}>Example product</Text>
+          <Text style={styles.productTitle}>
+            {this.state.product.name}
+          </Text>
           <View style={styles.priceBuyRow}>
             <Text style={styles.price}>
-              39,99 zł
-              </Text>
+              {this.state.product.price}
+            </Text>
             <Link to='#'>
               <StylizedButton
                 title={"Buy"}
@@ -43,7 +85,7 @@ export default class ProductDetails extends React.Component {
             </Link>
           </View>
           <Text style={styles.description}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae accusantium non aliquam mollitia ea exercitationem, dicta voluptas magnam corporis nisi reprehenderit ab tempora voluptatibus assumenda, vitae nulla doloremque, eveniet quos ut tempore numquam eius modi. Amet ducimus expedita non eos, modi blanditiis dignissimos possimus reprehenderit tempore neque dolor pariatur ipsum error. Nihil, blanditiis sequi aliquid iure natus aliquam ullam minus adipisci corrupti impedit perferendis excepturi fuga dolorem officia fugit. Consectetur ea fugiat voluptas exercitationem voluptates blanditiis sit, obcaecati rerum nam dignissimos eveniet est quo suscipit asperiores consequuntur molestiae enim numquam neque culpa accusamus ipsum in distinctio maxime explicabo? Perferendis, consequuntur!
+            {this.state.product.body}
           </Text>
         </View>
       </ScrollView>
