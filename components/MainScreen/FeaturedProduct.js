@@ -15,7 +15,12 @@ export default class FeaturedProduct extends React.Component {
 
   render() {
     return (
-      <Link to="/productDetails">
+      <Link
+        to={{
+          pathname: '/productDetails',
+          search: '?productId=' + this.props.id
+        }}
+      >
         <View style={styles.mainContainer}>
           {/* <ScaledImage uri={this.props.imageUrl} width={300} /> */}
           <Image
@@ -33,7 +38,7 @@ export default class FeaturedProduct extends React.Component {
         </View>
       </Link>
     );
-  }
+}
 }
 
 const styles = StyleSheet.create({
