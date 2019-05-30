@@ -1,46 +1,17 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, ActivityIndicator } from 'react-native';
 
 import ProductItem from './ProductItem';
+import LoadingSymbol from '../LoadingSymbol';
 import History from '../History';
 import NetworkConfig from '../NetworkConfig';
+import ColorsPalette from '../ColorsPalette';
 
 export default class ProductList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productList: [
-        <ProductItem
-          key={1}
-          name={'Product 1'}
-          price={'39,99 zl'}
-        />,
-        <ProductItem
-          key={2}
-          name={'Product 2'}
-          price={'59,99 zl'}
-        />,
-        <ProductItem
-          key={3}
-          name={'Product 1'}
-          price={'39,99 zl'}
-        />,
-        <ProductItem
-          key={4}
-          name={'Product 2'}
-          price={'59,99 zl'}
-        />,
-        <ProductItem
-          key={5}
-          name={'Product 1'}
-          price={'39,99 zl'}
-        />,
-        <ProductItem
-          key={6}
-          name={'Product 2'}
-          price={'59,99 zl'}
-        />,
-      ]
+      productList: []
     }
   }
 
@@ -120,7 +91,14 @@ export default class ProductList extends React.Component {
       <ScrollView style={styles.mainContainer}
         contentContainerStyle={styles.contentContainerStyle}
       >
-        {this.state.productList}
+        {this.state.productList.length == 0 ?
+          (
+            <ActivityIndicator
+              size={48}
+              color={ColorsPalette.main}
+              style={styles.activityIndicator}
+            />
+          ) : this.state.productList}
       </ScrollView>
     );
   }
@@ -134,5 +112,8 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     alignItems: 'center',
     paddingVertical: 5
+  },
+  activityIndicator: {
+    marginTop: 100,
   }
 })

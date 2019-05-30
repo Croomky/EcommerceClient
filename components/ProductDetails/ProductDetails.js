@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-native';
-import { StyleSheet, View, Image, Text, Button, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, Text, Button, ScrollView, ActivityIndicator } from 'react-native';
 import { Link } from 'react-router-native';
 // import { Button } from 'react-native-elements';
 
@@ -56,7 +56,6 @@ export default class ProductDetails extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <ScrollView style={styles.mainContainer}
         contentContainerStyle={styles.scrollViewContainer}

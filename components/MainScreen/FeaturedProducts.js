@@ -1,15 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
 
 import FeaturedProduct from './FeaturedProduct';
 import SearchBar from '../SearchBar';
 import NetworkConfig from '../NetworkConfig';
+import ColorsPalette from '../ColorsPalette';
 
 export default class FeaturedProducts extends React.Component {
 
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      productsList: []
+    };
   }
 
   fetchFeaturedProducts() {
@@ -79,7 +82,14 @@ export default class FeaturedProducts extends React.Component {
           style={styles.scrollView}
           contentContainerStyle={styles.contentContainerStyle}
         >
-          {this.state.productsList}
+          {this.state.productsList.length == 0 ?
+            (
+              <ActivityIndicator
+                size={48}
+                color={ColorsPalette.main}
+                style={styles.activityIndicator}
+              />
+            ) : this.state.productsList}
         </ScrollView>
       </View>
     );
@@ -102,5 +112,8 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     flex: 1,
+  },
+  activityIndicator: {
+    marginTop: 100,
   }
 });
