@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, ActivityIndicator } from 'react-native';
 
 import ProductItem from './ProductItem';
-import LoadingSymbol from '../LoadingSymbol';
 import History from '../History';
 import NetworkConfig from '../NetworkConfig';
 import ColorsPalette from '../ColorsPalette';
