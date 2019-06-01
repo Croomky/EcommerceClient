@@ -55,6 +55,7 @@ export default class App extends React.Component {
             <Route path='/signIn' component={ SignIn } />
             <Route path='/signUp' component={ SignUp } />
             <Route path='/profile' component={ Profile } />
+            <Route path='/shoppingCart' component={ ShoppingCart } />
           </Switch>
           <Menu></Menu>
         </Router>
