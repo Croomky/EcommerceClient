@@ -9,6 +9,7 @@ import ScaledImage from '../ScaledImage';
 import ColorsPalette from '../ColorsPalette';
 import NetworkConfig from '../NetworkConfig';
 import History from '../History'
+import { pushId } from '../ShoppingCart/ShoppingCartHandler';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -79,7 +80,7 @@ export default class ProductDetails extends React.Component {
             <Link to='#'>
               <StylizedButton
                 title={"Buy"}
-                onPress={() => {}}
+                onPress={() => { pushId(this.state.product.id); }}
               />
             </Link>
           </View>

@@ -58,10 +58,12 @@ export default class Menu extends React.Component {
             <Text style={styles.optionName}>Profile</Text>
           </View>
         </Link>
-        {/* <View style={styles.option}>
-          <Icon name="account" size={30} color={Palette.brightText} />
-          <Text style={styles.optionName}>Sign in</Text>
-        </View> */}
+        <Link to="/shoppingCart">
+          <View style={styles.option}>
+            <Icon name="cart" size={30} color={Palette.brightText} />
+            <Text style={styles.optionName}>Cart</Text>
+          </View>
+        </Link>
         <Link to="/categories">
           <View style={styles.option}>
             <Icon name="equal" size={30} color={Palette.brightText} />
