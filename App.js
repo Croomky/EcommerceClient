@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, BackHandler } from 'react-native';
 import { NativeRouter, Router, Route, Link, Switch } from 'react-router-native';
 import { createMemoryHistory } from 'history';
 
@@ -9,7 +9,7 @@ import History from './components/History';
 import FeaturedProducts from './components/MainScreen/FeaturedProducts';
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import Categories from './components/Categories/Categories';
-// import Profile from './components/Profile/Profile';
+import Profile from './components/Profile/Profile';
 import SignUp from './components/SignUp/SignUp';
 import SignIn from './components/SignIn/SignIn';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
@@ -29,6 +29,19 @@ export default class App extends React.Component {
     // this.history = History;
   }
 
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  handleBackPress() {
+    History.goBack();
+    return true;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -39,6 +52,10 @@ export default class App extends React.Component {
             <Route path='/productList' component={ ProductList } />
             <Route path='/productDetails' component={ ProductDetails } />
             <Route path='/categories' component={ Categories } />
+            <Route path='/signIn' component={ SignIn } />
+            <Route path='/signUp' component={ SignUp } />
+            <Route path='/profile' component={ Profile } />
+            <Route path='/shoppingCart' component={ ShoppingCart } />
           </Switch>
           <Menu></Menu>
         </Router>

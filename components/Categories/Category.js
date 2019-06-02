@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import { Link } from 'react-router-native';
 import ColorsPalette from '../ColorsPalette';
 
 export default class Category extends React.Component {
@@ -9,17 +10,25 @@ export default class Category extends React.Component {
 
   render() {
     return (
-      <View
-        style={styles.categoryTile}
+      <Link
+        style={styles.link}
+        to={{
+          pathname: '/productList',
+          search: '?categoryId=' + this.props.id
+          }}
       >
-        <Image
-          source={require('../../assets/tshirt-v.png')}
-          style={styles.logoImage}
-        />
-        <Text style={styles.categoryName}>
-          {this.props.name}
-        </Text>
-      </View>
+        <View
+          style={styles.categoryTile}
+        >
+          <Image
+            source={{uri: this.props.logoUrl}}
+            style={styles.logoImage}
+          />
+          <Text style={styles.categoryName}>
+            {this.props.name}
+          </Text>
+        </View>
+      </Link>
     );
   }
 }
@@ -43,5 +52,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 10,
     marginLeft: 10,
+  },
+  link: {
+    flex: 1,
+    flexDirection: 'row',
+    minWidth: '100%',
+    overflow: 'hidden'
   }
 });

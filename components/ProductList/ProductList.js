@@ -1,51 +1,18 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, ActivityIndicator } from 'react-native';
 
 import ProductItem from './ProductItem';
 import History from '../History';
 import NetworkConfig from '../NetworkConfig';
+import ColorsPalette from '../ColorsPalette';
 
 export default class ProductList extends React.Component {
   constructor(props) {
     super(props);
-    // console.log('props.phrase: ');
-    // console.log(props.phrase);
     this.state = {
-      productList: [
-        <ProductItem
-          key={1}
-          name={'Product 1'}
-          price={'39,99 zl'}
-        />,
-        <ProductItem
-          key={2}
-          name={'Product 2'}
-          price={'59,99 zl'}
-        />,
-        <ProductItem
-          key={3}
-          name={'Product 1'}
-          price={'39,99 zl'}
-        />,
-        <ProductItem
-          key={4}
-          name={'Product 2'}
-          price={'59,99 zl'}
-        />,
-        <ProductItem
-          key={5}
-          name={'Product 1'}
-          price={'39,99 zl'}
-        />,
-        <ProductItem
-          key={6}
-          name={'Product 2'}
-          price={'59,99 zl'}
-        />,
-      ]
+      productList: []
     }
   }
-
 
   fetchProductsByPhrase(phrase) {
     var self = this;
@@ -53,18 +20,28 @@ export default class ProductList extends React.Component {
     fetch(NetworkConfig.RestApiAddress + '/product/search?q=' + phrase)
       .then(function(response) {
         return response.json();
-      })
-      .then(function(responseJson) {
+      }).then(function(responseJson) {
         self.setState({
-          productList: responseJson.map((element, index) => {
-            return (<ProductItem
-                key={element.id}
-                name={element.name}
-                price={element.price}
-              />);
-          })
+          productList: self.jsonArrayToComponentArray(responseJson)
         });
-        console.log(self.state.productList);
+      }).catch(function(err) {
+        console.log('Couldn\'t fetch products by a phrase');
+        console.log(err);
+      });
+  }
+
+  fetchProductsByCategory(categoryId) {
+    var self = this;
+
+    fetch(NetworkConfig.RestApiAddress + '/product/byCategory/' + categoryId)
+      .then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        self.setState({
+          productList: self.jsonArrayToComponentArray(data)
+        });
+      }).catch(function(err) {
+        console.log(err);
       });
   }
 
@@ -72,49 +49,55 @@ export default class ProductList extends React.Component {
     return searchAttr.split('=')[1];
   }
 
+  getFirstParam(searchAttr) {
+    return searchAttr.substring(searchAttr.indexOf('?')+1, searchAttr.indexOf('='));
+  }
+
+  getThumbnailAddress(thumbnailName) {
+    return NetworkConfig.RestApiAddress + '/static/' + thumbnailName
+  }
+
   jsonArrayToComponentArray(jsonArray) {
-    return jsonArray.map((element, index) => {
-      <ProductItem
-          key={element.id}
+    var self = this;
+    const productItemArray = jsonArray.map((element, index) => {
+      return (<ProductItem
+          key={index}
+          id={element.id}
           name={element.name}
           price={element.price}
-        />
+          thumbnail={self.getThumbnailAddress(element.thumbnail)}
+        />);
     });
+
+    // console.log(jsonArray);
+    return productItemArray;
   }
 
   componentDidMount() {
     const searchAttr = History.location.search;
-    console.log('SEARCHATTR:', searchAttr);
-    searchAttr ? this.fetchProductsByPhrase(this.parseSearch(searchAttr)) : null;
+    // console.log('SEARCHATTR:', searchAttr);
+    const firstParam = this.getFirstParam(searchAttr);
+
+    if(firstParam == 'categoryId') {
+      this.fetchProductsByCategory(this.parseSearch(searchAttr));
+    } else if(firstParam  == 'phrase') {
+      this.fetchProductsByPhrase(this.parseSearch(searchAttr));
+    }
   }
-
-  // createProductItemsFromState() {
-  //   const productItems = this.state.productList.map((product, index) => (
-  //     <ProductItem
-  //       key={index}
-  //       name={product.name}
-  //       price={product.price}
-  //     />
-  //   ));
-    
-  //   console.log(productItems);
-  //   this.setState({
-  //     preparedProductList: productItems
-  //   });
-
-  //   return productItems;
-  // }
-
-  // componentDidMount() {
-  //   this.createProductItemsFromState();
-  // }
 
   render() {
     return (
       <ScrollView style={styles.mainContainer}
         contentContainerStyle={styles.contentContainerStyle}
       >
-        {this.state.productList}
+        {this.state.productList.length == 0 ?
+          (
+            <ActivityIndicator
+              size={48}
+              color={ColorsPalette.main}
+              style={styles.activityIndicator}
+            />
+          ) : this.state.productList}
       </ScrollView>
     );
   }
@@ -128,5 +111,8 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     alignItems: 'center',
     paddingVertical: 5
+  },
+  activityIndicator: {
+    marginTop: 100,
   }
 })

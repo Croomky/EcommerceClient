@@ -1,6 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import NetworkConfig from '../NetworkConfig';
+import ColorsPalette from '../ColorsPalette';
+import { removeItem } from './ShoppingCartHandler';
+import Utils from '../Utils';
+
 export default class ShoppingCartItem extends React.Component {
   constructor(props) {
     super(props);
@@ -11,15 +18,18 @@ export default class ShoppingCartItem extends React.Component {
       <View style={styles.mainContainer}>
         <Image
           style={styles.thumbnail}
-          source={{ uri: 'https://static.pexels.com/photos/355296/pexels-photo-355296.jpeg'}}
+          source={{ uri: NetworkConfig.RestApiAddress + '/static/' + this.props.thumbnail }}
         />
         <View style={styles.namePriceRow}>
           <Text style={styles.productName}>
-            Product's name
+            {this.props.name}
           </Text>
-          <Text style={styles.price}>
-            39,99 zl
-          </Text>
+          <View style={styles.priceRemoveColumn}>
+            <Icon name="close" size={20} color={ColorsPalette.darkText} onPress={() => removeItem(this.props.id)} />
+            <Text style={styles.price}>
+              {Utils.parsePrice(this.props.price)}
+            </Text>
+          </View>
         </View>
       </View>
     );
@@ -41,10 +51,17 @@ const styles = StyleSheet.create({
   },
   namePriceRow: {
     flex: 1,
+    flexDirection: 'row',
     paddingLeft: 5,
     justifyContent: 'space-between'
   },
+  priceRemoveColumn: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end'
+  },
   productName: {
+    flex: 1,
     fontSize: 16,
     fontWeight: '400'
   },

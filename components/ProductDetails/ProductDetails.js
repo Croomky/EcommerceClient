@@ -1,49 +1,130 @@
 import React from 'react';
 import ReactDOM from 'react-native';
-import { StyleSheet, View, Image, Text, Button, ScrollView } from 'react-native';
+import { StyleSheet, View, Image, Text, Button, ScrollView, ActivityIndicator } from 'react-native';
 import { Link } from 'react-router-native';
 // import { Button } from 'react-native-elements';
 
 import StylizedButton from '../StylizedButton';
 import ScaledImage from '../ScaledImage';
 import ColorsPalette from '../ColorsPalette';
+import NetworkConfig from '../NetworkConfig';
+import History from '../History'
+import { pushId, isInCart } from '../ShoppingCart/ShoppingCartHandler';
+import SessionIdHandler from '../SessionIdHandler';
+import Utils from '../Utils';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      source: "https://images.pexels.com/photos/1549702/pexels-photo-1549702.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+      product: {
+        id: '',
+        name: '',
+        price: '',
+        thumbnail: ''
+      },
+      thumbnailUri: this.getThumbnailUriFromParams(this.props.thumbnailUri)
+    };
+  }
+
+  fetchProductById(productId) {
+    var self = this;
+
+    fetch(NetworkConfig.RestApiAddress + '/product/details/' + productId)
+      .then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        console.log('object', data);
+        self.setState({
+          product: data,
+          thumbnailUri: self.getThumbnailAddress(data.thumbnail)
+        });
+        // self.forceUpdate();
+      }).catch(function(err) {
+        console.log(err);
+      });
+  }
+
+  getProductIdFromParams() {
+    var productId = History.location.search.split('=')[1];
+    productId = productId.split('&')[0];
+    // console.log(History.location);
+    return productId;
+  }
+
+  getThumbnailAddress(thumbnailName) {
+    return (NetworkConfig.RestApiAddress + '/static/' + thumbnailName);
+  }
+
+  getThumbnailUriFromParams() {
+    var thumbnailUri = History.location.search.split('=')[2];
+    console.log('parsed thumbnailUri', thumbnailUri);
+    return thumbnailUri;
+  }
+
+  componentDidMount() {
+    const id = this.getProductIdFromParams();
+    // console.log('id', id);
+    this.fetchProductById(id);
+  }
+
+  renderAddToCartButton() {
+    if(isInCart(this.state.product.id)) {
+      return (
+        <Link to='/shoppingCart'>
+          <Text style={styles.addedToCartText}>
+            Added to cart
+          </Text>
+        </Link>
+      );
+    }
+    else if(SessionIdHandler.sessionId != '') {
+      return (
+        <Link to='#'>
+          <StylizedButton
+            title={"Add to cart"}
+            onPress={() => { pushId(this.state.product.id); this.forceUpdate(); }}
+          />
+        </Link>
+      );
+    } else {
+      return (
+        <Link to='/signIn'>
+          <Text style={styles.signInText}>
+            Sign in to use cart
+          </Text>
+        </Link>
+      )
     }
   }
 
   render() {
+    console.log('pre render state', this.state);
+    const thumbnailU = this.state.thumbnailUri;
     return (
       <ScrollView style={styles.mainContainer}
         contentContainerStyle={styles.scrollViewContainer}
       >
-        {/* <ScaledImage
-            uri={this.state.source}
-            width={300}
-          ></ScaledImage> */}
         <View style={styles.productView}>
-          <Image
-            source={{ uri: this.state.source }}
+          {/* <Image
+            source={{ uri: this.getThumbnailAddress(this.state.product.thumbnail) }}
             style={{ width: '100%', height: 200 }}
+          /> */}
+          <ScaledImage
+            uri={thumbnailU}
+            width={290}
           />
-          <Text style={styles.productTitle}>Example product</Text>
+          <Text style={styles.productTitle}>
+            {this.state.product.name}
+          </Text>
           <View style={styles.priceBuyRow}>
             <Text style={styles.price}>
-              39,99 zł
-              </Text>
-            <Link to='#'>
-              <StylizedButton
-                title={"Buy"}
-                onPress={() => {}}
-              />
-            </Link>
+              {Utils.parsePrice(this.state.product.price)}
+            </Text>
+           {this.renderAddToCartButton()}
           </View>
           <Text style={styles.description}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae accusantium non aliquam mollitia ea exercitationem, dicta voluptas magnam corporis nisi reprehenderit ab tempora voluptatibus assumenda, vitae nulla doloremque, eveniet quos ut tempore numquam eius modi. Amet ducimus expedita non eos, modi blanditiis dignissimos possimus reprehenderit tempore neque dolor pariatur ipsum error. Nihil, blanditiis sequi aliquid iure natus aliquam ullam minus adipisci corrupti impedit perferendis excepturi fuga dolorem officia fugit. Consectetur ea fugiat voluptas exercitationem voluptates blanditiis sit, obcaecati rerum nam dignissimos eveniet est quo suscipit asperiores consequuntur molestiae enim numquam neque culpa accusamus ipsum in distinctio maxime explicabo? Perferendis, consequuntur!
+            {this.state.product.body}
           </Text>
         </View>
       </ScrollView>
@@ -92,5 +173,14 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 20,
     fontSize: 13
+  },
+  signInText: {
+    color: ColorsPalette.main,
+    fontSize: 12,
+    textDecorationLine: 'underline'
+  },
+  addedToCartText: {
+    color: ColorsPalette.main,
+    fontSize: 12,
   }
-})
+});

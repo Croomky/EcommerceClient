@@ -27,7 +27,7 @@ export default class StylizedButton extends TouchableOpacity {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: ColorsPalette.main,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 18,
   },

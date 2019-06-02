@@ -3,6 +3,13 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 import ColorsPalette from '../ColorsPalette';
 import StylizedButton from '../StylizedButton';
+import NetworkConfig from '../NetworkConfig';
+import SessionIdHandler from '../SessionIdHandler';
+import History from '../History';
+import { getValidSigningRedirect } from '../History';
+// import { menuComponentInstance } from '../History';
+import Menu from '../Menu';
+// import menuRefresher from '../MenuRefresher';
 
 export default class SignIn extends React.Component {
   constructor(props) {
@@ -17,19 +24,26 @@ export default class SignIn extends React.Component {
     console.log('USERNAME: ', username)
     console.log('PASSWORD: ', password)
 
-    fetch('http://192.168.0.103:8000/user/login', {
+    fetch(NetworkConfig.RestApiAddress + '/user/login', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
+      // credentials: 'same-origin',
       body: JSON.stringify({
         username: username,
         password: password
       })
-    }).then(res => res.json())
-      .then(function(json) {
+    }).then(function(res) {
+      // console.log('Response object:');
+      // console.log(res);
+      SessionIdHandler.setSessionIdFromResponse(res);
+      //console.log(SessionIdHandler.sessionId);
+      return res.json();
+    }).then(function(json) {
         if(json.answer == 'ok') {
           console.log('SUCCESS');
+          History.go(getValidSigningRedirect());
         } else if(json.answer == 'no') {
           console.log('FAILURE');
         }

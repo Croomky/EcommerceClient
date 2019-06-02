@@ -14,11 +14,11 @@ export default class ScaledImage extends React.Component {
       if (this.props.width && !this.props.height) {
         this.setState({
           width: this.props.width,
-          height: height * (this.props.width / width)
+          height: Math.round(height * (this.props.width / width))
         });
       } else if (!this.props.width && this.props.height) {
         this.setState({
-          width: width * (this.props.height / height),
+          width: Math.round(width * (this.props.height / height)),
           height: this.props.height
         });
       } else {
@@ -30,7 +30,7 @@ export default class ScaledImage extends React.Component {
   render() {
     return (
       <Image
-        source={this.state.uri}
+        source={this.state.source}
         style={{ height: this.state.height, width: this.state.width }}
       />
     );

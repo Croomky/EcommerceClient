@@ -1,5 +1,8 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { Link } from 'react-router-native';
+
+import Utils from '../Utils';
 
 export default class ProductItem extends React.Component {
   constructor(props) {
@@ -9,17 +12,25 @@ export default class ProductItem extends React.Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <Image
-          style={styles.thumbnail}
-          source={{ uri: 'https://via.placeholder.com/32' }}
-        />
+        <Link
+          to={{
+            pathname: '/productDetails',
+            search: '?productId=' + this.props.id + '&thumbnailUri=' + this.props.thumbnail
+          }}
+        >
+          <Image
+            style={styles.thumbnail}
+            source={{ uri: this.props.thumbnail }}
+          />
+        </Link>
         <View style={styles.productContent}>
           <View style={styles.namePriceRow}>
             <Text style={styles.name}>
               {this.props.name}
             </Text>
             <Text style={styles.price}>
-              {this.props.price}
+              {/* {this.props.price} */}
+              {Utils.parsePrice(this.props.price)}
             </Text>
           </View>
           <Text style={styles.productDescription}>
