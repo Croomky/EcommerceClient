@@ -45,8 +45,9 @@ export default class ShoppingCart extends React.Component {
   }
 
   jsonToShoppingCartItemArray(jsonArray) {
-    return jsonArray.map(function(item) {
+    return jsonArray.map(function(item, index) {
       return <ShoppingCartItem
+        key={index}
         id={item.id}
         name={item.name}
         price={item.price}
