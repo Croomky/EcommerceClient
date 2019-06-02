@@ -22,11 +22,14 @@ export default class FeaturedProduct extends React.Component {
         }}
       >
         <View style={styles.mainContainer}>
-          {/* <ScaledImage uri={this.props.imageUrl} width={300} /> */}
-          <Image
+          <ScaledImage
+            uri={this.props.imageUrl}
+            width={280}
+          />
+          {/* <Image
             source={{ uri: this.props.imageUrl }}
             style={{height: 280, width: 280 }}
-          />
+          /> */}
           <View style={styles.namePriceRow}>
             <Text style={styles.productTitle}>
               {this.props.productTitle}

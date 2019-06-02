@@ -21,7 +21,8 @@ export default class ProductDetails extends React.Component {
         name: '',
         price: '',
         thumbnail: ''
-      }
+      },
+      thumbnailUri: ''
     };
   }
 
@@ -34,8 +35,10 @@ export default class ProductDetails extends React.Component {
       }).then(function(data) {
         console.log('object', data);
         self.setState({
-          product: data
+          product: data,
+          thumbnailUri: self.getThumbnailAddress(data.thumbnail)
         });
+        // self.forceUpdate();
       }).catch(function(err) {
         console.log(err);
       });
@@ -43,17 +46,17 @@ export default class ProductDetails extends React.Component {
 
   getProductIdFromParams() {
     const productId = History.location.search.split('=')[1];
-    console.log(History.location);
+    // console.log(History.location);
     return productId;
   }
 
   getThumbnailAddress(thumbnailName) {
-    return NetworkConfig.RestApiAddress + '/static/' + thumbnailName;
+    return (NetworkConfig.RestApiAddress + '/static/' + thumbnailName);
   }
 
   componentDidMount() {
     const id = this.getProductIdFromParams();
-    console.log('id', id);
+    // console.log('id', id);
     this.fetchProductById(id);
   }
 
@@ -79,18 +82,20 @@ export default class ProductDetails extends React.Component {
   }
 
   render() {
+    console.log('pre render state', this.state);
+    const thumbnailU = this.state.thumbnailUri;
     return (
       <ScrollView style={styles.mainContainer}
         contentContainerStyle={styles.scrollViewContainer}
       >
-        {/* <ScaledImage
-            uri={this.state.source}
-            width={300}
-          ></ScaledImage> */}
         <View style={styles.productView}>
-          <Image
+          {/* <Image
             source={{ uri: this.getThumbnailAddress(this.state.product.thumbnail) }}
             style={{ width: '100%', height: 200 }}
+          /> */}
+          <ScaledImage
+            uri={thumbnailU}
+            width={200}
           />
           <Text style={styles.productTitle}>
             {this.state.product.name}

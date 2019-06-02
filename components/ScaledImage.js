@@ -7,18 +7,22 @@ export default class ScaledImage extends React.Component {
     this.state = {
       source: { uri: this.props.uri }
     };
+    // console.log('scaledImage uri', this.props.uri);
   }
 
   componentWillMount() {
+    if(this.state.source.uri == '') {
+      return null;
+    }
     Image.getSize(this.props.uri, (width, height) => {
       if (this.props.width && !this.props.height) {
         this.setState({
           width: this.props.width,
-          height: height * (this.props.width / width)
+          height: Math.round(height * (this.props.width / width))
         });
       } else if (!this.props.width && this.props.height) {
         this.setState({
-          width: width * (this.props.height / height),
+          width: Math.round(width * (this.props.height / height)),
           height: this.props.height
         });
       } else {
@@ -28,9 +32,13 @@ export default class ScaledImage extends React.Component {
   }
 
   render() {
+    console.log(this.state);
+    if(this.state.source.uri == '') {
+      return null;
+    }
     return (
       <Image
-        source={this.state.uri}
+        source={this.state.source}
         style={{ height: this.state.height, width: this.state.width }}
       />
     );
