@@ -7,6 +7,7 @@ import SocialMedia from './SocialMedia';
 import SessionIdHandler from '../SessionIdHandler';
 import NetworkConfig from '../NetworkConfig';
 import { pushId, getProductIdArray, registerShoppinigCartComponent } from './ShoppingCartHandler';
+import Utils from '../Utils';
 
 export default class ShoppingCart extends React.Component {
   constructor(props) {
@@ -116,7 +117,7 @@ export default class ShoppingCart extends React.Component {
         {this.jsonToShoppingCartItemArray(this.state.shoppingCartItems)}
         {this.getMessage()}
         <Text style={styles.summary}>
-          Summary: {this.state.totalPrice} zł
+          Summary: {Utils.parsePrice(this.state.totalPrice)}
         </Text>
         <StylizedButton
           title={'Make an order'}

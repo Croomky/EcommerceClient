@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import NetworkConfig from '../NetworkConfig';
 import ColorsPalette from '../ColorsPalette';
 import { removeItem } from './ShoppingCartHandler';
+import Utils from '../Utils';
 
 export default class ShoppingCartItem extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ export default class ShoppingCartItem extends React.Component {
           <View style={styles.priceRemoveColumn}>
             <Icon name="close" size={20} color={ColorsPalette.darkText} onPress={() => removeItem(this.props.id)} />
             <Text style={styles.price}>
-              {this.props.price}
+              {Utils.parsePrice(this.props.price)}
             </Text>
           </View>
         </View>

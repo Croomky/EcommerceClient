@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Link } from 'react-router-native';
 
+import Utils from '../Utils';
+
 export default class ProductItem extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +29,8 @@ export default class ProductItem extends React.Component {
               {this.props.name}
             </Text>
             <Text style={styles.price}>
-              {this.props.price}
+              {/* {this.props.price} */}
+              {Utils.parsePrice(this.props.price)}
             </Text>
           </View>
           <Text style={styles.productDescription}>

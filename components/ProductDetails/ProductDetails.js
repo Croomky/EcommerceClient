@@ -11,6 +11,7 @@ import NetworkConfig from '../NetworkConfig';
 import History from '../History'
 import { pushId, isInCart } from '../ShoppingCart/ShoppingCartHandler';
 import SessionIdHandler from '../SessionIdHandler';
+import Utils from '../Utils';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -118,7 +119,7 @@ export default class ProductDetails extends React.Component {
           </Text>
           <View style={styles.priceBuyRow}>
             <Text style={styles.price}>
-              {this.state.product.price}
+              {Utils.parsePrice(this.state.product.price)}
             </Text>
            {this.renderAddToCartButton()}
           </View>
