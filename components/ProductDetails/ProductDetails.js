@@ -10,6 +10,7 @@ import ColorsPalette from '../ColorsPalette';
 import NetworkConfig from '../NetworkConfig';
 import History from '../History'
 import { pushId } from '../ShoppingCart/ShoppingCartHandler';
+import SessionIdHandler from '../SessionIdHandler';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -56,6 +57,27 @@ export default class ProductDetails extends React.Component {
     this.fetchProductById(id);
   }
 
+  renderAddToCartButton() {
+    if(SessionIdHandler.sessionId != '') {
+      return (
+        <Link to='#'>
+          <StylizedButton
+            title={"Buy"}
+            onPress={() => { pushId(this.state.product.id); }}
+          />
+        </Link>
+      );
+    } else {
+      return (
+        <Link to='/signIn'>
+          <Text style={styles.signInText}>
+            Sign in to use cart
+          </Text>
+        </Link>
+      )
+    }
+  }
+
   render() {
     return (
       <ScrollView style={styles.mainContainer}
@@ -77,12 +99,7 @@ export default class ProductDetails extends React.Component {
             <Text style={styles.price}>
               {this.state.product.price}
             </Text>
-            <Link to='#'>
-              <StylizedButton
-                title={"Buy"}
-                onPress={() => { pushId(this.state.product.id); }}
-              />
-            </Link>
+           {this.renderAddToCartButton()}
           </View>
           <Text style={styles.description}>
             {this.state.product.body}
@@ -134,5 +151,10 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 20,
     fontSize: 13
+  },
+  signInText: {
+    color: ColorsPalette.main,
+    fontSize: 12,
+    textDecorationLine: 'underline'
   }
-})
+});
