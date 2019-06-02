@@ -10,6 +10,7 @@ import { getValidSigningRedirect } from '../History';
 // import { menuComponentInstance } from '../History';
 import Menu from '../Menu';
 // import menuRefresher from '../MenuRefresher';
+import RedWarning from '../RedWarning';
 
 export default class SignIn extends React.Component {
   constructor(props) {
@@ -17,12 +18,14 @@ export default class SignIn extends React.Component {
     this.state = {
       // email: '',
       // password: '',
+      msg: ''
     };
   }
 
   postCredentials(username, password) {
-    console.log('USERNAME: ', username)
-    console.log('PASSWORD: ', password)
+    console.log('USERNAME: ', username);
+    console.log('PASSWORD: ', password);
+    var self = this;
 
     fetch(NetworkConfig.RestApiAddress + '/user/login', {
       method: 'POST',
@@ -45,11 +48,22 @@ export default class SignIn extends React.Component {
           console.log('SUCCESS');
           History.go(getValidSigningRedirect());
         } else if(json.answer == 'no') {
+          self.setState({
+            msg: 'Login or password incorrect.'
+          })
           console.log('FAILURE');
         }
     }).catch(function(err) {
       console.log(err);
     })
+  }
+
+  renderErrorMessage() {
+    if(this.state.msg != '') {
+      return <RedWarning messages={[this.state.msg]} />
+    } else {
+      return;
+    }
   }
 
   render() {
@@ -58,6 +72,7 @@ export default class SignIn extends React.Component {
         <Text style={styles.title}>
           Sign in
         </Text>
+        {this.renderErrorMessage()}
         <TextInput
           style={styles.field}
           placeholder={"Username or e-mail"}
