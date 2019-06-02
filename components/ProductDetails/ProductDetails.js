@@ -102,7 +102,7 @@ export default class ProductDetails extends React.Component {
           /> */}
           <ScaledImage
             uri={thumbnailU}
-            width={200}
+            width={290}
           />
           <Text style={styles.productTitle}>
             {this.state.product.name}
