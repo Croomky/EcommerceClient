@@ -22,7 +22,7 @@ export default class ProductDetails extends React.Component {
         price: '',
         thumbnail: ''
       },
-      thumbnailUri: ''
+      thumbnailUri: this.getThumbnailUriFromParams(this.props.thumbnailUri)
     };
   }
 
@@ -45,13 +45,20 @@ export default class ProductDetails extends React.Component {
   }
 
   getProductIdFromParams() {
-    const productId = History.location.search.split('=')[1];
+    var productId = History.location.search.split('=')[1];
+    productId = productId.split('&')[0];
     // console.log(History.location);
     return productId;
   }
 
   getThumbnailAddress(thumbnailName) {
     return (NetworkConfig.RestApiAddress + '/static/' + thumbnailName);
+  }
+
+  getThumbnailUriFromParams() {
+    var thumbnailUri = History.location.search.split('=')[2];
+    console.log('parsed thumbnailUri', thumbnailUri);
+    return thumbnailUri;
   }
 
   componentDidMount() {

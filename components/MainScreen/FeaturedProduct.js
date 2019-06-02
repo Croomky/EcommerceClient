@@ -18,7 +18,7 @@ export default class FeaturedProduct extends React.Component {
       <Link
         to={{
           pathname: '/productDetails',
-          search: '?productId=' + this.props.id
+          search: '?productId=' + this.props.id + '&thumbnailUri=' + this.props.imageUrl
         }}
       >
         <View style={styles.mainContainer}>
