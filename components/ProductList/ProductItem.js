@@ -13,7 +13,7 @@ export default class ProductItem extends React.Component {
         <Link
           to={{
             pathname: '/productDetails',
-            search: '?productId=' + this.props.id
+            search: '?productId=' + this.props.id + '&thumbnailUri=' + this.props.thumbnail
           }}
         >
           <Image
