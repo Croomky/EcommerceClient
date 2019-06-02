@@ -9,7 +9,7 @@ import ScaledImage from '../ScaledImage';
 import ColorsPalette from '../ColorsPalette';
 import NetworkConfig from '../NetworkConfig';
 import History from '../History'
-import { pushId } from '../ShoppingCart/ShoppingCartHandler';
+import { pushId, isInCart } from '../ShoppingCart/ShoppingCartHandler';
 import SessionIdHandler from '../SessionIdHandler';
 
 export default class ProductDetails extends React.Component {
@@ -58,12 +58,21 @@ export default class ProductDetails extends React.Component {
   }
 
   renderAddToCartButton() {
-    if(SessionIdHandler.sessionId != '') {
+    if(isInCart(this.state.product.id)) {
+      return (
+        <Link to='/shoppingCart'>
+          <Text style={styles.addedToCartText}>
+            Added to cart
+          </Text>
+        </Link>
+      );
+    }
+    else if(SessionIdHandler.sessionId != '') {
       return (
         <Link to='#'>
           <StylizedButton
-            title={"Buy"}
-            onPress={() => { pushId(this.state.product.id); }}
+            title={"Add to cart"}
+            onPress={() => { pushId(this.state.product.id); this.forceUpdate(); }}
           />
         </Link>
       );
@@ -156,5 +165,9 @@ const styles = StyleSheet.create({
     color: ColorsPalette.main,
     fontSize: 12,
     textDecorationLine: 'underline'
+  },
+  addedToCartText: {
+    color: ColorsPalette.main,
+    fontSize: 12,
   }
 });

@@ -19,3 +19,7 @@ export function removeItem(id) {
 export function registerShoppinigCartComponent(component) {
   shoppingCartComponent = component;
 }
+
+export function isInCart(id) {
+  return productIdArray.indexOf(id) == -1 ? false : true;
+}
