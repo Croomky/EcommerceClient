@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
 import ShoppingCartItem from './ShoppingCartItem';
 import StylizedButton from '../StylizedButton';
+import SocialMedia from './SocialMedia';
 import SessionIdHandler from '../SessionIdHandler';
 import NetworkConfig from '../NetworkConfig';
 import { pushId, getProductIdArray, registerShoppinigCartComponent } from './ShoppingCartHandler';
@@ -119,6 +120,7 @@ export default class ShoppingCart extends React.Component {
         <StylizedButton
           title={'Make an order'}
         />
+        <SocialMedia style={styles.socialMedia} />
       </ScrollView>
     );
   }
@@ -153,5 +155,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     width: '80%'
+  },
+  socialMedia: {
+    marginVertical: 20
   }
 })
