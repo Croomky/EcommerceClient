@@ -15,7 +15,7 @@ export default class SocialMedia extends React.Component {
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.mainText}>
-          If You like our service, follow us on:
+          Follow us on
         </Text>
         <View style={styles.socialMediaIconsRow}>
           <Icon name="facebook" size={34} color='#3B5998' onPress={() => Linking.openURL('https://www.facebook.com')} />
@@ -34,10 +34,11 @@ const styles = StyleSheet.create({
     paddingVertical: 40
   },
   mainText: {
-    color: ColorsPalette.darkText,
-    fontSize: 16,
+    color: ColorsPalette.main,
+    fontSize: 20,
+    fontWeight: '500',
     width: '100%',
-    alignContent: 'center',
+    textAlign: 'center',
     marginBottom: 20
   },
   socialMediaIconsRow: {
