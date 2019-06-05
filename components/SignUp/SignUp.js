@@ -110,7 +110,7 @@ export default class SignUp extends React.Component {
       }).then(function(json) {
         if(json.answer == 'ok') {
           console.log('SUCCESS');
-          // History.go(getValidSigningRedirect());
+          History.go(getValidSigningRedirect());
           self.postCredentials(email, password);
         } else if(json.answer == 'no') {
           console.log('FAILURE');
