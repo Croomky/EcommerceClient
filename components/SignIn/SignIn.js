@@ -75,7 +75,7 @@ export default class SignIn extends React.Component {
         {this.renderErrorMessage()}
         <TextInput
           style={styles.field}
-          placeholder={"Username or e-mail"}
+          placeholder={"E-mail"}
           value={this.state.username}
           onChangeText={ (text) => this.setState({username: text}) }
           autoCapitalize={"none"}
